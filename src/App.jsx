@@ -190,12 +190,27 @@ function Nav() {
 /* ---------- Hero ---------- */
 function Hero() {
   const [videoOk, setVideoOk] = useState(true)
+  const [reduceMotion, setReduceMotion] = useState(false)
+  const videoRef = useRef(null)
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const syncMotion = () => {
+      setReduceMotion(media.matches)
+      if (media.matches) videoRef.current?.pause()
+      else videoRef.current?.play().catch(() => {})
+    }
+    syncMotion()
+    media.addEventListener('change', syncMotion)
+    return () => media.removeEventListener('change', syncMotion)
+  }, [])
   return (
     <header className="hero" id="top">
       <div className="hero-media">
         {videoOk && (
           <video
-            autoPlay muted loop playsInline
+            ref={videoRef}
+            autoPlay={!reduceMotion} muted loop playsInline
+            onLoadedData={(event) => reduceMotion && event.currentTarget.pause()}
             style={{ position: 'absolute', inset: 0 }}
           >
             <source src="/hero-bg.mp4" type="video/mp4" onError={() => setVideoOk(false)} />

@@ -119,14 +119,38 @@ function CopyButton({ value, className = '', children }) {
 /* ---------- 导航 ---------- */
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const navRef = useRef(null)
+  const menuButtonRef = useRef(null)
+  const firstMenuItemRef = useRef(null)
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+  const closeMenu = (restoreFocus = true) => {
+    setMenuOpen(false)
+    if (restoreFocus) window.requestAnimationFrame(() => menuButtonRef.current?.focus())
+  }
+  useEffect(() => {
+    if (!menuOpen) return undefined
+    firstMenuItemRef.current?.focus()
+    const onPointerDown = (event) => {
+      if (!navRef.current?.contains(event.target)) closeMenu()
+    }
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') closeMenu()
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [menuOpen])
   return (
-    <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
-      <div className="nav-pill">
+    <nav ref={navRef} className={`nav ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
+      <div className="nav-pill nav-desktop">
         <a href="/#about">个人介绍</a>
         <a href="/#works">项目作品</a>
         <a href="/#top" className="nav-logo" aria-label="回到顶部">
@@ -134,6 +158,30 @@ function Nav() {
         </a>
         <a href="/#strengths">设计思考</a>
         <a href="/xuyongfang-portfolio.pdf" download="许咏芳-UIUX设计师-作品集.pdf">简历下载</a>
+      </div>
+      <div className="nav-mobile">
+        <a href="/#top" className="nav-mobile-logo" aria-label="回到顶部">
+          <img src="/images/logo.png" alt="许咏芳 Portfolio Logo" />
+        </a>
+        <button
+          ref={menuButtonRef}
+          type="button"
+          className="nav-menu-button"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation-menu"
+          aria-label={menuOpen ? '关闭菜单' : '打开菜单'}
+          onClick={() => menuOpen ? closeMenu() : setMenuOpen(true)}
+        >
+          <span className="nav-menu-dots" aria-hidden="true"><i /><i /><i /><i /></span>
+          <span>菜单</span>
+        </button>
+      </div>
+      <div className="nav-mobile-overlay" aria-hidden="true" onClick={() => closeMenu()} />
+      <div id="mobile-navigation-menu" className="nav-mobile-panel" aria-hidden={!menuOpen}>
+        <a ref={firstMenuItemRef} href="/#about" onClick={() => closeMenu()}>个人介绍</a>
+        <a href="/#works" onClick={() => closeMenu()}>项目作品</a>
+        <a href="/#strengths" onClick={() => closeMenu()}>设计思考</a>
+        <a href="/xuyongfang-portfolio.pdf" download="许咏芳-UIUX设计师-作品集.pdf" onClick={() => closeMenu()}>简历下载</a>
       </div>
     </nav>
   )

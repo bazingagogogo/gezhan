@@ -235,12 +235,39 @@ a { color: inherit; text-decoration: none; }
   z-index: 3;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: clamp(130px, 17vh, 200px);
-  padding-bottom: clamp(44px, 6vh, 80px);
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  align-content: stretch;
+  padding-top: clamp(118px, 15vh, 170px);
+  padding-bottom: 54px;
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: rgba(242,242,240,.58);
+  font-family: var(--font-en);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: .12em;
+}
+.hero-meta-dot { width: 6px; height: 6px; border-radius: 50%; background: #198dff; }
+.hero-meta-mobile,
+.hero-title-mobile { display: none; }
+.hero-title-desktop { display: block; }
 .hero-float {
   position: absolute;
   right: var(--pad);
@@ -266,7 +293,9 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.14;
   font-weight: 700;
   letter-spacing: 0;
+  max-width: 1320px;
 }
+.title-cluster { display: inline-flex; align-items: baseline; white-space: nowrap; }
 .hero-title .row {
   display: block;
   overflow: hidden;
@@ -308,7 +337,7 @@ a { color: inherit; text-decoration: none; }
   display: block;
   transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.t-img:hover img { transform: scale(1.25); }
+.t-img:hover img { transform: scale(1.12); transition-duration: .4s; }
 /* 底部：左按钮 + 右简介 */
 .hero-foot {
   display: grid;
@@ -321,7 +350,7 @@ a { color: inherit; text-decoration: none; }
   gap: 14px;
   flex-wrap: wrap;
 }
-.hero-who { max-width: 560px; justify-self: end; }
+.hero-who { max-width: 520px; justify-self: end; }
 .who-label {
   display: block;
   font-size: 12px;
@@ -342,7 +371,8 @@ a { color: inherit; text-decoration: none; }
   color: #0a0a0c;
   font-size: 14px;
   font-weight: 500;
-  padding: 15px 30px;
+  height: 52px;
+  padding: 0 28px;
   border-radius: 100px;
   transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -355,9 +385,10 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 10px;
   border: 1px solid rgba(255,255,255,0.24);
-  color: var(--text);
+  color: rgba(255,255,255,.84);
   font-size: 14px;
-  padding: 15px 30px;
+  height: 52px;
+  padding: 0 26px;
   border-radius: 100px;
   transition: color .3s, border-color .3s, background .3s, transform .3s, box-shadow .3s;
 }
@@ -368,6 +399,17 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(242, 242, 240, .16), inset 0 1px 0 rgba(255,255,255,.12);
 }
+.hero-actions :where(.btn-primary, .btn-ghost) {
+  justify-content: center;
+  white-space: nowrap;
+}
+.hero-actions :where(.btn-primary, .btn-ghost)::after { display: none; }
+.hero-actions :where(.btn-primary, .btn-ghost):active { transform: scale(.98); }
+.hero-actions :where(.btn-primary, .btn-ghost):focus-visible {
+  outline: 2px solid #198dff;
+  outline-offset: 3px;
+}
+.hero-download-compact { display: none; }
 
 .hero-scroll {
   position: absolute;
@@ -2202,4 +2244,87 @@ button.info-v:hover { color: var(--accent); }
   background-position: center;
   background-repeat: no-repeat;
   background-size: 18px;
+}
+
+/* ============ 首页首屏系统 V2：响应式层级 ============ */
+.hero { height: 100svh; min-height: 720px; }
+
+@media (min-width: 1200px) {
+  .hero-content {
+    padding-left: clamp(48px, 4vw, 72px);
+    padding-right: clamp(48px, 4vw, 72px);
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1199px) {
+  .hero { min-height: 820px; }
+  .hero-content {
+    padding: clamp(108px, 13vh, 138px) 32px 46px;
+  }
+  .hero-title { font-size: clamp(48px, 6.2vw, 68px); }
+  .hero-foot {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .hero-who { max-width: 560px; justify-self: start; }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    min-height: 760px;
+    overflow: hidden;
+  }
+  .hero-content {
+    grid-template-rows: auto auto 1fr auto;
+    padding: 110px 24px 28px;
+  }
+  .hero-meta {
+    margin-bottom: 18px;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: .1em;
+  }
+  .hero-meta-desktop,
+  .hero-title-desktop { display: none; }
+  .hero-meta-mobile,
+  .hero-title-mobile { display: inline; }
+  .hero-title-mobile { display: block; }
+  .hero-title {
+    max-width: none;
+    font-size: clamp(38px, 10.8vw, 44px);
+    line-height: 1.16;
+  }
+  .hero-title .row { white-space: nowrap; }
+  .hero-foot {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    align-items: stretch;
+  }
+  .hero-actions {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+  .hero-actions :where(.btn-primary, .btn-ghost) {
+    height: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .hero-who {
+    max-width: 100%;
+    justify-self: start;
+  }
+  .hero-who p { font-size: 14px; line-height: 1.72; }
+}
+
+@media (max-width: 390px) {
+  .hero-download-wide { display: none; }
+  .hero-download-compact { display: inline; }
+  .hero-actions :where(.btn-primary, .btn-ghost) {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
 }

@@ -163,23 +163,38 @@ function Hero() {
         <div className="hero-film-grain" aria-hidden="true" />
       </div>
       <div className="wrap hero-content">
+        <div className="hero-meta" aria-label="职业方向">
+          <span className="hero-meta-dot" aria-hidden="true" />
+          <span className="hero-meta-desktop">UI/UX DESIGNER · ENTERPRISE SaaS · AI PRODUCT</span>
+          <span className="hero-meta-mobile">UI/UX DESIGNER · SaaS / AI</span>
+        </div>
         <h1 className="hero-title">
-          <span className="row"><span>
-            我是许咏芳，
-            <i className="t-img pill"><img src="/images/welink-cover.jpg" alt="WeLink 智能笔记" /></i>
-            探索
-          </span></span>
-          <span className="row"><span>
-            未来生产力工具的<em>体验边界</em>
-          </span></span>
+          <span className="sr-only">我是许咏芳，探索未来生产力工具的体验边界。</span>
+          <span className="hero-title-desktop" aria-hidden="true">
+            <span className="row"><span>
+              我是许咏芳，
+              <span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>探索</span>
+            </span></span>
+            <span className="row"><span>
+              未来生产力工具的<em>体验边界</em>。
+            </span></span>
+          </span>
+          <span className="hero-title-mobile" aria-hidden="true">
+            <span className="row"><span>我是许咏芳，</span></span>
+            <span className="row"><span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>探索</span></span>
+            <span className="row"><span>未来生产力工具的</span></span>
+            <span className="row"><span><em>体验边界</em>。</span></span>
+          </span>
         </h1>
         <div className="hero-foot">
           <div className="hero-actions">
-            <a className="btn-primary" href="/xuyongfang-portfolio.pdf" download="作品集-许咏芳-UXUI.pdf">下载PDF作品集</a>
-            <CopyButton value="17611540569" className="btn-ghost">联系我</CopyButton>
+            <a className="btn-primary" href="#works">查看项目 <span aria-hidden="true">↓</span></a>
+            <a className="btn-ghost" href="/xuyongfang-portfolio.pdf" download="作品集-许咏芳-UXUI.pdf">
+              <span className="hero-download-wide">下载作品集 ↗</span>
+              <span className="hero-download-compact">下载PDF ↗</span>
+            </a>
           </div>
           <div className="hero-who">
-            <span className="who-label">关于我</span>
             <p>
               <span className="who-star">✳</span> 我把视觉表达、产品思维和 AI 工作流揉成一套能落地的设计能力，
               擅长企业级 SaaS 与 AI 产品的体验设计 —— 不只输出高保真图，更参与决策。

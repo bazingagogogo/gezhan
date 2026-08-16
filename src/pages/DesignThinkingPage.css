@@ -162,7 +162,15 @@
 }
 
 .thinking-article img { display: block; width: 100%; height: auto; }
-.thinking-article-cover { border-radius: 13px; }
+.thinking-article-header { padding: clamp(22px, 3vw, 36px); border-radius: 14px; color: #f2f2f0; background: #18243a; }
+.thinking-article-category { display: inline-flex; padding: 7px 11px; border-radius: 999px; color: #42c5ff; background: rgba(66,197,255,.12); font: 600 10px/1 var(--font-en); letter-spacing: .08em; }
+.thinking-article .thinking-article-header h3 { margin: 18px 0 0; color: #fff; font-size: clamp(24px, 2.6vw, 38px); line-height: 1.28; letter-spacing: .02em; }
+.thinking-article-title-break { display: none; }
+.thinking-article-subtitle { margin-top: 10px !important; color: rgba(242,242,240,.52); font-size: 14px !important; line-height: 1.65 !important; }
+.thinking-article-meta { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); }
+.thinking-keywords { display: flex; flex-wrap: wrap; gap: 8px; }
+.thinking-keywords span { display: inline-flex; align-items: center; min-height: 30px; padding: 6px 12px; border: 1px solid rgba(255,255,255,.08); border-radius: 999px; color: rgba(242,242,240,.76); background: rgba(255,255,255,.09); font-size: 12px; line-height: 1; white-space: nowrap; }
+.thinking-article-type { flex: 0 0 auto; color: rgba(242,242,240,.46); font-size: 11px; line-height: 1.5; white-space: nowrap; }
 .thinking-article-lead { padding: 28px 2px 10px; }
 .thinking-article-lead > span { display: inline-block; margin-bottom: 12px; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .12em; }
 .thinking-article p { margin: 0; font-size: 15px; line-height: 1.9; }
@@ -231,6 +239,15 @@
   .thinking-item-question { font-size: 17px; line-height: 1.45; }
   .thinking-answer-grid > div > p { margin: 0 18px; padding-bottom: 23px; font-size: 14px; line-height: 1.75; }
   .thinking-article { margin: 0 18px 22px; padding-top: 18px; }
+  .thinking-article-header { padding: 20px 18px; border-radius: 11px; }
+  .thinking-article-category { padding: 6px 9px; font-size: 8px; }
+  .thinking-article .thinking-article-header h3 { margin-top: 15px; font-size: 23px; line-height: 1.35; }
+  .thinking-article-title-break { display: block; }
+  .thinking-article-subtitle { font-size: 12px !important; }
+  .thinking-article-meta { display: grid; gap: 14px; margin-top: 18px; padding-top: 16px; }
+  .thinking-keywords { gap: 7px; }
+  .thinking-keywords span { min-height: 28px; padding: 5px 10px; font-size: 11px; }
+  .thinking-article-type { font-size: 10px; white-space: normal; }
   .thinking-article-lead { padding-top: 20px; }
   .thinking-article p { font-size: 14px; line-height: 1.8; }
   .thinking-article section { margin-top: 32px; }

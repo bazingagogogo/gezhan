@@ -58,7 +58,20 @@ function ThinkingAccordion({ item, index, open, onToggle }) {
 function ChargingArticle() {
   return (
     <article className="thinking-article">
-      <img className="thinking-article-cover" src="/images/thinking/charging/article-cover.png" alt="智能充电桩设计思考文章标题与关键词" />
+      <header className="thinking-article-header">
+        <span className="thinking-article-category">DESIGN THOUGHTS · 学习沉淀与扩展思考</span>
+        <h3>听完充电桩设计分享，<br className="thinking-article-title-break" />我梳理出的 3 个底层逻辑</h3>
+        <p className="thinking-article-subtitle">优秀案例复盘：从生态博弈、软硬重构到隐形体验的延伸思考</p>
+        <div className="thinking-article-meta">
+          <div className="thinking-keywords" aria-label="文章关键词">
+            <span>软硬融合</span>
+            <span>户外导视</span>
+            <span>隐形交互 · Zero-UI</span>
+            <span>B2B2C 商业视角</span>
+          </div>
+          <span className="thinking-article-type">设计案例拆解 · 方法论总结</span>
+        </div>
+      </header>
       <div className="thinking-article-lead">
         <span>案例学习沉淀</span>
         <p>前段时间参加了一场关于“智能充电桩出海体验设计”的分享会。原本以为充电桩只是“插枪、扫码、等待”的简单流程，深入了解后才发现，它背后牵涉制造商、运营商与车主的多方关系，也是物理空间与数字界面高度融合的典型场景。</p>

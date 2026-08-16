@@ -1048,12 +1048,7 @@ export default function App() {
     return <NianyuProject />
   }
   if (pathname === '/thinking') {
-    return (
-      <>
-        <Nav />
-        <DesignThinkingPage />
-      </>
-    )
+    return <DesignThinkingPage />
   }
   return (
     <>

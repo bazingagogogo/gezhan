@@ -42,7 +42,6 @@ function ThinkingAccordion({ item, index, open, onToggle }) {
           aria-controls={panelId}
           onClick={onToggle}
         >
-          <span className="thinking-item-index">{String(index + 1).padStart(2, '0')}</span>
           <span className="thinking-item-question">{item.question}</span>
           <span className="thinking-item-toggle" aria-hidden="true"><i /><i /></span>
         </button>
@@ -82,9 +81,9 @@ function ChargingArticle() {
         <h3>让软件和硬件“长在一起”</h3>
         <p>重构方案的核心可以概括为三句话：软硬融合、一目了然、极简充电。它没有把 12.1 英寸触摸屏当作孤立的显示框，而是把数字界面作为硬件物理特征的延伸。</p>
         <div className="thinking-article-points">
-          <div><strong>直觉映射</strong><p>星环灯状态与屏幕色彩和动态反馈保持一致；物理按键在界面中按真实位置映射；左右界面直接对应实体双枪位置。</p></div>
-          <div><strong>户外导视</strong><p>充电桩更多时候是信息看板。字体、字号、对比度、可视高度与昼夜模式，都要按照远距离和户外环境重新定义。</p></div>
-          <div><strong>极简交互</strong><p>最好的交互不是让用户反复点击屏幕，而是用灯语、动态指南和自动识别，引导人在物理世界中完成操作。</p></div>
+          <div><strong>物理与数字的直觉映射</strong><p>桩体星环灯的空闲、充电与故障状态，和屏幕背景色、动态粒子保持一致；屏幕按键与实体按键的位置对应；左右布局直接映射左右物理枪位。</p></div>
+          <div><strong>把屏幕当成户外导视系统</strong><p>使用适合交通导视的 Frutiger 字体，依据 PAS、DIN 标准控制核心可视区和操作高度，并通过高对比度与光线传感器适应昼夜和强光。</p></div>
+          <div><strong>不需要触碰屏幕的交互</strong><p>最好的交互，是用动态指南引导人在物理世界里快速操作，而不是让用户在屏幕上反复点击。</p></div>
         </div>
         <blockquote>理想的充电体验，不应该是用户与屏幕的频繁对话，而是用户与充电桩的默契配合。</blockquote>
       </section>
@@ -140,6 +139,11 @@ export default function DesignThinkingPage() {
 
   return (
     <main ref={pageRef} className="thinking-page" id="top">
+      <header className="project-detail-bar thinking-detail-bar">
+        <a href="/" className="project-back"><img src="/icons/chevron-left.svg" alt="" aria-hidden="true" />返回主页</a>
+        <span className="project-detail-name">设计思考</span>
+        <span className="project-detail-count">DESIGN NOTES</span>
+      </header>
       <section className="thinking-hero" aria-labelledby="thinking-title">
         <div className="thinking-kicker">
           <span>DESIGN THINKING</span>
@@ -149,7 +153,7 @@ export default function DesignThinkingPage() {
           <span className="thinking-title-muted">设计不只发生在画布上。</span>
           <span>这里记录判断、取舍与方法。</span>
         </h1>
-        <p className="thinking-intro">从问题定义到方案落地，把设计过程中不容易被看见的思考整理出来。以下内容暂为结构占位，后续将替换为真实文章与项目复盘。</p>
+        <p className="thinking-intro">从问题定义到方案落地，把设计过程中不容易被看见的思考整理出来。这里持续记录我对产品、体验与技术的观察，并将项目中的判断与取舍沉淀为可复用的方法。</p>
       </section>
 
       <section className="thinking-content" aria-label="设计思考内容">
@@ -160,7 +164,7 @@ export default function DesignThinkingPage() {
               item={item}
               index={index}
               open={openIndex === index}
-              onToggle={() => setOpenIndex(index)}
+              onToggle={() => setOpenIndex((current) => current === index ? -1 : index)}
             />
           ))}
         </div>
@@ -171,7 +175,7 @@ export default function DesignThinkingPage() {
             <p>这里会持续收录我的设计判断、工作方法和项目复盘。具体内容正在整理中。</p>
             <a className="thinking-aside-cta" href="/#works">
               <span aria-hidden="true">↗</span>
-              <span>先看看项目</span>
+              <span>去看看项目</span>
             </a>
           </div>
           <div className="thinking-aside-card" aria-hidden="true">

@@ -342,6 +342,7 @@ function About() {
   const wheelDeltaRef = useRef(0)
   const releaseTimerRef = useRef(null)
   const messageCountRef = useRef(visibleMessages)
+  const titleRef = useRef(null)
   const profileMessages = [
     { type: 'system', text: '你好，我是许咏芳的个人介绍助手。' },
     { type: 'answer', text: '这里不重复简历，聊聊我怎么思考、怎么合作，以及工作之外的我。' },
@@ -355,6 +356,60 @@ function About() {
     { type: 'answer', text: '我喜欢独立游戏、积木、手作和 3D 打印。它们让我持续观察声音、画面与交互，也让我享受把想法做成实物的过程。' },
   ]
   const displayMessages = profileMessages.slice(1)
+  useEffect(() => {
+    const title = titleRef.current
+    if (!title) return undefined
+    const copy = title.closest('.about-copy')
+    const revealFinal = () => {
+      title.style.setProperty('--about-line-1', '100%')
+      title.style.setProperty('--about-line-2', '100%')
+      title.classList.add('about-title-in')
+      copy?.classList.add('about-copy-ready')
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      revealFinal()
+      return undefined
+    }
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        revealFinal()
+        observer.disconnect()
+      }, { threshold: .18, rootMargin: '0px 0px -12% 0px' })
+      observer.observe(title)
+      return () => observer.disconnect()
+    }
+
+    let frame = 0
+    let maxProgress = 0
+    const update = () => {
+      frame = 0
+      const rect = title.getBoundingClientRect()
+      const distance = window.innerHeight * .46
+      const progress = Math.max(0, Math.min((window.innerHeight * .88 - rect.top) / distance, 1))
+      maxProgress = Math.max(maxProgress, progress)
+      const first = Math.min(maxProgress * 1.25, 1)
+      const second = Math.max(0, Math.min((maxProgress - .18) * 1.22, 1))
+      title.style.setProperty('--about-line-1', `${first * 100}%`)
+      title.style.setProperty('--about-line-2', `${second * 100}%`)
+      if (maxProgress >= .45) copy?.classList.add('about-copy-ready')
+      if (maxProgress >= 1) {
+        title.classList.add('about-title-in')
+        window.removeEventListener('scroll', schedule)
+      }
+    }
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
+  }, [])
   useEffect(() => { messageCountRef.current = visibleMessages }, [visibleMessages])
   useEffect(() => {
     const onWheel = (event) => {
@@ -408,7 +463,16 @@ function About() {
         <div className="about-stage">
           <div className="about-copy">
             <span className="section-index">01 / ABOUT ME</span>
-            <h2>从想法到落地，<br />设计不只是画面</h2>
+            <h2 ref={titleRef} className="about-title-motion" aria-label="从想法到落地，设计不只是画面">
+              <span className="about-title-line">
+                <span className="about-title-base">从想法到落地，</span>
+                <span className="about-title-highlight" aria-hidden="true">从想法到落地，</span>
+              </span>
+              <span className="about-title-line">
+                <span className="about-title-base">设计不只是画面</span>
+                <span className="about-title-highlight" aria-hidden="true">设计不只是画面</span>
+              </span>
+            </h2>
             <p>
               我是许咏芳，一名拥有 3 年经验的 UI/UX 设计师，我参与过移动端、PC、Web 与后台产品的体验设计，也负责用户研究、交互优化和多端设计系统建设。
             </p>

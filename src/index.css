@@ -878,13 +878,45 @@ button.info-v:hover { color: var(--accent); }
   letter-spacing: -.04em;
   font-weight: 550;
 }
+.about-title-motion {
+  --about-line-1: 0%;
+  --about-line-2: 0%;
+}
+.about-title-line {
+  position: relative;
+  display: block;
+  width: fit-content;
+}
+.about-title-base { color: rgba(242, 242, 240, .25); }
+.about-title-highlight {
+  position: absolute;
+  inset: 0;
+  color: var(--text);
+  clip-path: inset(0 calc(100% - var(--about-line-1)) 0 0);
+}
+.about-title-line:nth-child(2) .about-title-highlight {
+  clip-path: inset(0 calc(100% - var(--about-line-2)) 0 0);
+}
 .about-copy > p {
   max-width: 530px;
   color: rgba(242, 242, 240, .6);
   font-size: clamp(14px, 1vw, 16px);
   line-height: 1.9;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 520ms var(--ease-out-expo), transform 520ms var(--ease-out-expo);
 }
-.about-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms var(--ease-out-expo) 70ms, transform 520ms var(--ease-out-expo) 70ms;
+}
+.about-copy.about-copy-ready > p,
+.about-copy.about-copy-ready .about-actions { opacity: 1; transform: none; }
 .about-actions .about-cta::after { display: none; }
 .about-cta {
   position: relative;
@@ -1156,7 +1188,7 @@ button.info-v:hover { color: var(--accent); }
   line-height: 1.65;
   background: rgba(255,255,255,.055);
   border: 0;
-  animation: bubbleIn .52s cubic-bezier(.2,.75,.2,1) both;
+  animation: bubbleIn 360ms var(--ease-out-expo) both;
 }
 .profile-bubble.prompt {
   margin-left: auto;
@@ -1175,8 +1207,8 @@ button.info-v:hover { color: var(--accent); }
 }
 .profile-bubble.system { color: #8ab8d4; background: rgba(60,110,140,.11); }
 @keyframes bubbleIn {
-  from { opacity: 0; transform: translateY(10px) scale(.97); filter: blur(5px); }
-  to { opacity: 1; transform: none; filter: none; }
+  from { opacity: 0; transform: translateY(12px) scale(.985); }
+  to { opacity: 1; transform: none; }
 }
 .typing-dots {
   display: flex;
@@ -1290,6 +1322,10 @@ button.info-v:hover { color: var(--accent); }
   .profile-interface { width: min(920px, 96vw); height: 500px; transform: none; }
 }
 @media (max-width: 700px) {
+  .about-title-highlight { transition: clip-path 560ms var(--ease-out-expo); }
+  .about-title-line:nth-child(2) .about-title-highlight { transition-delay: 80ms; }
+  .about-copy > p { transition-delay: 250ms; }
+  .about-actions { transition-delay: 320ms; }
   .profile-interface {
     width: 100%;
     height: auto;

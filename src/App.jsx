@@ -932,7 +932,7 @@ function Contact() {
       <div className="wrap">
         <div data-motion="contact">
           <h2 className="contact-title">
-            LET'S <span className="cn">聊聊</span>
+            <span className="contact-title-line">LET'S <span className="cn">聊聊</span></span>
           </h2>
           <p className="contact-sub">
             正在寻找新的机会与合作 —— 无论是产品设计的全职岗位，还是有趣的项目委托，

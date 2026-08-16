@@ -750,7 +750,7 @@ button.info-v:hover { color: var(--accent); }
   border: 1px solid var(--line-strong);
   border-radius: 100px;
   padding: 8px 16px;
-  transition: all 0.25s;
+  transition: color var(--motion-micro), border-color var(--motion-micro);
 }
 .building-chips span:hover { color: var(--text); border-color: var(--text); }
 .building-note {
@@ -1701,7 +1701,7 @@ button.info-v:hover { color: var(--accent); }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  transition: background var(--motion-micro), border-color var(--motion-micro), color var(--motion-micro), transform var(--motion-micro);
 }
 .work-card:hover .work-link .arrow {
   background: var(--accent);
@@ -2074,7 +2074,7 @@ button.info-v:hover { color: var(--accent); }
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-dim);
-  transition: all 0.35s;
+  transition: background 260ms, border-color 260ms, color 260ms;
 }
 .sc-tag {
   font-family: var(--font-en);
@@ -2182,7 +2182,15 @@ button.info-v:hover { color: var(--accent); }
   line-height: 0.95;
   letter-spacing: -0.03em;
   text-align: center;
+  overflow: hidden;
 }
+.contact-title-line {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 720ms var(--ease-out-expo);
+}
+.contact [data-motion="contact"] { opacity: 1; transform: none; transition: none; }
+.contact [data-motion="contact"].motion-in .contact-title-line { transform: none; }
 .contact-title .cn { font-family: var(--font-cn); font-weight: 500; }
 .contact-sub {
   text-align: center;
@@ -2190,6 +2198,9 @@ button.info-v:hover { color: var(--accent); }
   font-size: 15px;
   margin-top: 32px;
   line-height: 2;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 520ms var(--ease-out-expo) 100ms, transform 520ms var(--ease-out-expo) 100ms;
 }
 .contact-links {
   margin-top: 56px;
@@ -2197,7 +2208,11 @@ button.info-v:hover { color: var(--accent); }
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 520ms var(--ease-out-expo) 160ms, transform 520ms var(--ease-out-expo) 160ms;
 }
+.contact [data-motion="contact"].motion-in :where(.contact-sub, .contact-links) { opacity: 1; transform: none; }
 .contact-links a,
 .contact-links .copy-btn {
   font-size: 14px;
@@ -2205,7 +2220,7 @@ button.info-v:hover { color: var(--accent); }
   border: 1px solid var(--line-strong);
   border-radius: 100px;
   color: var(--text-dim);
-  transition: all 0.3s;
+  transition: color var(--motion-micro), background var(--motion-micro), border-color var(--motion-micro), transform var(--motion-micro), box-shadow var(--motion-micro);
 }
 .contact-links a:hover,
 .contact-links .copy-btn:hover {

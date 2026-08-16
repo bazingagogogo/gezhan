@@ -52,7 +52,7 @@ function IntroOverlay() {
   useEffect(() => {
     if (!shouldPlay) return undefined
     const mobile = window.matchMedia('(max-width: 700px)').matches
-    const duration = mobile ? 860 : 1580
+    const duration = mobile ? 2380 : 3980
     document.documentElement.classList.add('intro-playing')
     try { sessionStorage.setItem('xyf-home-intro-seen', '1') } catch {}
     const timer = window.setTimeout(() => {

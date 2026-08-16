@@ -84,7 +84,7 @@ html.intro-playing body { overflow: hidden; }
   background: #f2f2f0;
   pointer-events: auto;
   will-change: clip-path;
-  animation: introOverlayExit 360ms 900ms var(--ease-out-expo) forwards;
+  animation: introOverlayExit 960ms 2740ms var(--ease-out-expo) forwards;
 }
 .intro-brand-group {
   position: absolute;
@@ -94,7 +94,7 @@ html.intro-playing body { overflow: hidden; }
   font: 600 21px/1 var(--font-en);
   letter-spacing: -.025em;
   opacity: 0;
-  animation: introBrandSequence 650ms ease both;
+  animation: introBrandSequence 1700ms var(--ease-out-expo) both;
 }
 .intro-logo-carrier {
   width: 46px;
@@ -118,22 +118,22 @@ html.intro-playing body { overflow: hidden; }
   white-space: nowrap;
   opacity: 0;
   transform: translateY(14px);
-  animation: introCoreIn 210ms 440ms var(--ease-out-expo) forwards;
+  animation: introCoreIn 420ms 1720ms var(--ease-out-expo) forwards;
 }
 .intro-playing .hero {
   transform-origin: center bottom;
-  animation: introHeroLanding 560ms 980ms var(--ease-out-expo) both;
+  animation: introHeroLanding 960ms 2820ms var(--ease-out-expo) both;
 }
-.intro-playing .nav { animation: introNavReveal 480ms 980ms var(--ease-out-expo) both; }
-.intro-playing .hero-meta { animation: introLayerIn 440ms 1060ms var(--ease-out-expo) both; }
-.intro-playing .hero-title .row > span { animation: rise 720ms 800ms var(--ease-out-expo) both; }
-.intro-playing .hero-title .row:nth-child(2) > span { animation-delay: 880ms; }
-.intro-playing .hero-actions { animation: introLayerIn 480ms 1020ms var(--ease-out-expo) both; }
-.intro-playing .hero-who { animation: introLayerIn 480ms 1080ms var(--ease-out-expo) both; }
-.intro-playing .hero-media video { animation: introMediaSettle 1200ms 340ms var(--ease-out-expo) both; }
+.intro-playing .nav { animation: introNavReveal 560ms 2860ms var(--ease-out-expo) both; }
+.intro-playing .hero-meta { animation: introLayerIn 520ms 3000ms var(--ease-out-expo) both; }
+.intro-playing .hero-title .row > span { animation: rise 820ms 2980ms var(--ease-out-expo) both; }
+.intro-playing .hero-title .row:nth-child(2) > span { animation-delay: 3080ms; }
+.intro-playing .hero-actions { animation: introLayerIn 520ms 3260ms var(--ease-out-expo) both; }
+.intro-playing .hero-who { animation: introLayerIn 520ms 3340ms var(--ease-out-expo) both; }
+.intro-playing .hero-media video { animation: introMediaSettle 1200ms 2580ms var(--ease-out-expo) both; }
 @keyframes introBrandSequence {
   0% { opacity: 0; transform: scale(.94); }
-  25%, 68% { opacity: 1; transform: scale(1) translateY(0); }
+  22%, 76% { opacity: 1; transform: scale(1) translateY(0); }
   100% { opacity: 0; transform: translateY(-8px); }
 }
 @keyframes introCoreIn { to { opacity: 1; transform: none; } }
@@ -2497,25 +2497,25 @@ button.info-v:hover { color: var(--accent); }
 }
 
 @media (max-width: 700px) {
-  .intro-overlay { animation: introOverlayExit 240ms 480ms var(--ease-out-expo) forwards; }
-  .intro-brand-group { animation-duration: 300ms; }
+  .intro-overlay { animation: introOverlayExit 620ms 1460ms var(--ease-out-expo) forwards; }
+  .intro-brand-group { animation-duration: 820ms; }
   .intro-core-copy {
     flex-direction: column;
     gap: 2px;
     text-align: center;
     white-space: normal;
     font-size: 30px;
-    animation: introCoreIn 180ms 280ms var(--ease-out-expo) forwards;
+    animation: introCoreIn 320ms 820ms var(--ease-out-expo) forwards;
   }
-  .intro-playing .hero { animation: introHeroLanding 340ms 480ms var(--ease-out-expo) both; }
-  .intro-playing .nav { animation: introNavRevealMobile 300ms 500ms var(--ease-out-expo) both; }
-  .intro-playing .hero-meta { animation: introLayerIn 260ms 520ms var(--ease-out-expo) both; }
-  .intro-playing .hero-title .row > span { animation: rise 280ms 480ms var(--ease-out-expo) both; }
-  .intro-playing .hero-title .row:nth-child(2) > span { animation-delay: 540ms; }
-  .intro-playing .hero-title .row:nth-child(3) > span { animation-delay: 570ms; }
-  .intro-playing .hero-actions { animation: introLayerIn 240ms 580ms var(--ease-out-expo) both; }
-  .intro-playing .hero-who { animation: introLayerIn 240ms 620ms var(--ease-out-expo) both; }
-  .intro-playing .hero-media video { animation: introMediaSettleMobile 620ms 180ms var(--ease-out-expo) both; }
+  .intro-playing .hero { animation: introHeroLanding 680ms 1520ms var(--ease-out-expo) both; }
+  .intro-playing .nav { animation: introNavRevealMobile 420ms 1540ms var(--ease-out-expo) both; }
+  .intro-playing .hero-meta { animation: introLayerIn 380ms 1620ms var(--ease-out-expo) both; }
+  .intro-playing .hero-title .row > span { animation: rise 480ms 1600ms var(--ease-out-expo) both; }
+  .intro-playing .hero-title .row:nth-child(2) > span { animation-delay: 1660ms; }
+  .intro-playing .hero-title .row:nth-child(3) > span { animation-delay: 1720ms; }
+  .intro-playing .hero-actions { animation: introLayerIn 360ms 1840ms var(--ease-out-expo) both; }
+  .intro-playing .hero-who { animation: introLayerIn 360ms 1920ms var(--ease-out-expo) both; }
+  .intro-playing .hero-media video { animation: introMediaSettleMobile 900ms 1320ms var(--ease-out-expo) both; }
   .hero {
     height: 100svh;
     min-height: 0;

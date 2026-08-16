@@ -18,6 +18,26 @@ function useReveal() {
   }, [])
 }
 
+function useHomepageMotion() {
+  useEffect(() => {
+    const elements = [...document.querySelectorAll('[data-motion]')]
+    if (!elements.length) return undefined
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      elements.forEach((element) => element.classList.add('motion-in'))
+      return undefined
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('motion-in')
+        observer.unobserve(entry.target)
+      })
+    }, { threshold: .15, rootMargin: '0px 0px -12% 0px' })
+    elements.forEach((element) => observer.observe(element))
+    return () => observer.disconnect()
+  }, [])
+}
+
 /* ---------- 首页首次进入开场 ---------- */
 function IntroOverlay() {
   const [shouldPlay] = useState(() => {
@@ -386,7 +406,7 @@ function About() {
       <div className="about-aurora" aria-hidden="true" />
       <div className="wrap about-shell">
         <div className="about-stage">
-          <div className="about-copy reveal">
+          <div className="about-copy">
             <span className="section-index">01 / ABOUT ME</span>
             <h2>从想法到落地，<br />设计不只是画面</h2>
             <p>
@@ -398,7 +418,7 @@ function About() {
             </div>
           </div>
 
-          <div className="profile-interface liquid-glass reveal" aria-label="许咏芳的个人介绍">
+          <div className="profile-interface liquid-glass" data-motion="panel" aria-label="许咏芳的个人介绍">
             <div className="profile-windowbar">
             </div>
             <div className="profile-columns">
@@ -426,7 +446,7 @@ function About() {
           </div>
         </div>
 
-        <div className="about-experience-shell liquid-glass reveal">
+        <div className="about-experience-shell liquid-glass" data-motion="panel">
           <div className="experience-heading"><span>WORK EXPERIENCE</span><small>2022 — NOW</small></div>
           <div className="about-experience">
             {exps.map((e, index) => (
@@ -484,7 +504,7 @@ function Works() {
   return (
     <section className="section" id="works" style={{ background: 'var(--bg-elev)' }}>
       <div className="wrap">
-        <div className="section-head reveal">
+        <div className="section-head" data-motion="fade">
           <div>
             <span className="section-index">02 / SELECTED WORKS</span>
             <h2 className="section-title">精选项目</h2>
@@ -492,8 +512,8 @@ function Works() {
           <p className="section-note">两个完整项目，体现我在用户洞察、流程梳理与界面表达上的综合能力。</p>
         </div>
         <div className="works works-gallery">
-          {WORKS.map((w) => (
-            <article className="work-card reveal" key={w.idx}>
+          {WORKS.map((w, index) => (
+            <article className="work-card" data-motion="project" style={{ '--motion-delay': `${index * 120}ms` }} key={w.idx}>
               <a className="work-card-link" href={w.href} aria-label={`查看 ${w.title} 项目详情`} />
               <div className="work-visual">
                 <img className="art-img" src={w.image} alt={w.title} />
@@ -806,7 +826,7 @@ function Strengths() {
   return (
     <section className="section" id="strengths">
       <div className="wrap">
-        <div className="section-head reveal">
+        <div className="section-head" data-motion="fade">
           <div>
             <span className="section-index">04 / STRENGTHS</span>
             <h2 className="section-title">我能做的事</h2>
@@ -814,8 +834,8 @@ function Strengths() {
           <p className="section-note">与其观望 AI，不如先动手试 —— 试了才知道哪里是真的深。</p>
         </div>
         <div className="strength-grid">
-          {STRENGTHS.map((s) => (
-            <div className="strength-card reveal" key={s.no}>
+          {STRENGTHS.map((s, index) => (
+            <div className="strength-card" data-motion="card" style={{ '--motion-delay': `${Math.min(index * 70, 280)}ms` }} key={s.no}>
               <div className="sc-top">
                 <span className="sc-no">{s.no}</span>
                 <span className="sc-tag">{s.tag}</span>
@@ -846,7 +866,7 @@ function Contact() {
   return (
     <section className="contact" id="contact">
       <div className="wrap">
-        <div className="reveal">
+        <div data-motion="contact">
           <h2 className="contact-title">
             LET'S <span className="cn">聊聊</span>
           </h2>
@@ -872,6 +892,7 @@ function Contact() {
 
 export default function App() {
   useReveal()
+  useHomepageMotion()
   const pathname = window.location.pathname.replace(/\/$/, '')
   if (pathname === '/projects/welink') {
     return <WelinkProject />

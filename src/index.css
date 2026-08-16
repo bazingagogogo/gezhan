@@ -2221,6 +2221,37 @@ button.info-v:hover { color: var(--accent); }
 }
 
 /* ============ 进场动效 ============ */
+[data-motion] {
+  --motion-delay: 0ms;
+  transition-delay: var(--motion-delay);
+}
+[data-motion="fade"] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 520ms var(--ease-out-expo) var(--motion-delay), transform 520ms var(--ease-out-expo) var(--motion-delay);
+}
+[data-motion="panel"] {
+  opacity: 0;
+  transform: translateY(32px) scale(.985);
+  transition: opacity 680ms var(--ease-out-expo) var(--motion-delay), transform 680ms var(--ease-out-expo) var(--motion-delay);
+}
+[data-motion="project"] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 640ms var(--ease-out-expo) var(--motion-delay), transform 640ms var(--ease-out-expo) var(--motion-delay);
+}
+[data-motion="card"] {
+  opacity: 0;
+  transform: translateY(20px) scale(.99);
+  transition: opacity 520ms var(--ease-out-expo) var(--motion-delay), transform 520ms var(--ease-out-expo) var(--motion-delay);
+}
+[data-motion="contact"] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 680ms var(--ease-out-expo), transform 680ms var(--ease-out-expo);
+}
+[data-motion].motion-in { opacity: 1; transform: none; }
+
 .reveal {
   opacity: 0;
   transform: translateY(40px);

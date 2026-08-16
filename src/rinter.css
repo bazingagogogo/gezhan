@@ -6,8 +6,33 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'HarmonyOS Sans Local';
+  src: url('/fonts/HarmonyOS_Sans_Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans Local';
+  src: url('/fonts/HarmonyOS_Sans_Medium.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans Local';
+  src: url('/fonts/HarmonyOS_Sans_Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   --font-en: 'Rinter', Arial, sans-serif;
+  --font-cn: 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
 }
 
 body,
@@ -15,5 +40,9 @@ button,
 input,
 textarea,
 select {
-  font-family: 'Rinter', 'HarmonyOS Sans SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'Rinter', 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
+}
+
+.intro-core-copy {
+  font-family: 'Rinter', 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
 }

@@ -5,6 +5,7 @@
   .contact-title {
     font-size: clamp(28px, 3.5vw, 66px);
   }
+  .contact-title { font-size: clamp(44px, 5.6vw, 105px); }
 }
 
 @media (min-width: 701px) and (max-width: 1199px) {
@@ -13,6 +14,7 @@
   .contact-title {
     font-size: clamp(25px, 3.56vw, 43px);
   }
+  .contact-title { font-size: clamp(40px, 5.7vw, 68px); }
 }
 
 @media (max-width: 700px) {
@@ -21,6 +23,7 @@
   .contact-title {
     font-size: clamp(28px, 8vw, 33px);
   }
+  .contact-title { font-size: clamp(38px, 10.8vw, 44px); }
 }
 
 /* Keep the Hero compact; give every following heading 2px more air. */
@@ -46,3 +49,15 @@
   letter-spacing: 2px;
   line-height: calc(1.2em + 2px);
 }
+
+.section-title,
+.about-copy h2,
+.contact-title,
+#about .experience-card h3,
+#works h3,
+#more h3,
+#strengths h4 {
+  font-weight: 700;
+}
+
+.contact-title .cn { font-weight: 700; }

@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import OptionWheel from './components/OptionWheel.jsx'
 import ZoomableBoard from './components/ZoomableBoard.jsx'
 
+const HERO_CORE_LEAD = '探索未来数字产品的'
+const HERO_CORE_EMPHASIS = '体验边界'
+const HERO_CORE_COPY = `${HERO_CORE_LEAD}${HERO_CORE_EMPHASIS}。`
+
 /* ---------- 滚动进场动效 ---------- */
 function useReveal() {
   useEffect(() => {
@@ -12,6 +16,48 @@ function useReveal() {
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el))
     return () => io.disconnect()
   }, [])
+}
+
+/* ---------- 首页首次进入开场 ---------- */
+function IntroOverlay() {
+  const [shouldPlay] = useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('intro') === '0') return false
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
+    if (params.get('intro') === '1') return true
+    try { return sessionStorage.getItem('xyf-home-intro-seen') !== '1' } catch { return true }
+  })
+  const [visible, setVisible] = useState(shouldPlay)
+
+  useEffect(() => {
+    if (!shouldPlay) return undefined
+    const mobile = window.matchMedia('(max-width: 700px)').matches
+    const duration = mobile ? 860 : 1580
+    document.documentElement.classList.add('intro-playing')
+    try { sessionStorage.setItem('xyf-home-intro-seen', '1') } catch {}
+    const timer = window.setTimeout(() => {
+      document.documentElement.classList.remove('intro-playing')
+      setVisible(false)
+    }, duration)
+    return () => {
+      window.clearTimeout(timer)
+      document.documentElement.classList.remove('intro-playing')
+    }
+  }, [shouldPlay])
+
+  if (!visible) return null
+  return (
+    <div className="intro-overlay" aria-hidden="true">
+      <div className="intro-brand-group">
+        <span className="intro-logo-carrier"><img src="/images/logo.png" alt="" /></span>
+        <span>XU YONGFANG</span>
+      </div>
+      <p className="intro-core-copy">
+        <span>{HERO_CORE_LEAD}</span>
+        <span>{HERO_CORE_EMPHASIS}。</span>
+      </p>
+    </div>
+  )
 }
 
 /* ---------- Hero 动态背景（Canvas 粒子网格，视频缺失时的兜底） ---------- */
@@ -232,19 +278,19 @@ function Hero() {
           <span className="hero-meta-mobile">UI/UX DESIGNER · SaaS / AI</span>
         </div>
         <h1 className="hero-title">
-          <span className="sr-only">我是许咏芳，探索未来数字产品的体验边界。</span>
+          <span className="sr-only">我是许咏芳，{HERO_CORE_COPY}</span>
           <span className="hero-title-desktop" aria-hidden="true">
             <span className="row"><span>
               我是许咏芳，
             </span></span>
             <span className="row"><span>
-              <span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>探索未来数字产品的<em>体验边界</em>。</span>
+              <span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>{HERO_CORE_LEAD}<em>{HERO_CORE_EMPHASIS}</em>。</span>
             </span></span>
           </span>
           <span className="hero-title-mobile" aria-hidden="true">
             <span className="row"><span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>探索</span></span>
-            <span className="row"><span>未来数字产品的</span></span>
-            <span className="row"><span><em>体验边界</em></span></span>
+            <span className="row"><span>{HERO_CORE_LEAD.replace('探索', '')}</span></span>
+            <span className="row"><span><em>{HERO_CORE_EMPHASIS}</em></span></span>
           </span>
         </h1>
         <div className="hero-foot">
@@ -835,6 +881,7 @@ export default function App() {
   }
   return (
     <>
+      <IntroOverlay />
       <Nav />
       <Hero />
       <About />

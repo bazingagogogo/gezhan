@@ -48,11 +48,16 @@
   --pad: clamp(24px, 4vw, 72px);
   --font-en: 'Inter', -apple-system, 'Segoe UI', sans-serif;
   --font-cn: 'HarmonyOS Sans Medium', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --ease-out-expo: cubic-bezier(.22, 1, .36, 1);
+  --motion-micro: 200ms;
+  --motion-small: 480ms;
+  --motion-medium: 680ms;
+  --motion-large: 920ms;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
 body {
   background: var(--bg);
   color: var(--text);
@@ -64,6 +69,93 @@ body {
 ::selection { background: var(--accent); color: #0a0a0c; }
 
 a { color: inherit; text-decoration: none; }
+
+/* ============ 首页首次进入开场 ============ */
+html.intro-playing,
+html.intro-playing body { overflow: hidden; }
+.intro-overlay {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #121316;
+  background: #f2f2f0;
+  pointer-events: auto;
+  will-change: clip-path;
+  animation: introOverlayExit 360ms 900ms var(--ease-out-expo) forwards;
+}
+.intro-brand-group {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 21px/1 var(--font-en);
+  letter-spacing: -.025em;
+  opacity: 0;
+  animation: introBrandSequence 650ms ease both;
+}
+.intro-logo-carrier {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: #111318;
+}
+.intro-logo-carrier img { display: block; width: 28px; height: 28px; object-fit: contain; }
+.intro-core-copy {
+  display: flex;
+  justify-content: center;
+  gap: .2em;
+  padding: 0 24px;
+  font-family: 'DingTalk JinBuTi', 'HarmonyOS Sans Black', var(--font-cn);
+  font-size: clamp(28px, 3vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.025em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: introCoreIn 210ms 440ms var(--ease-out-expo) forwards;
+}
+.intro-playing .hero {
+  transform-origin: center bottom;
+  animation: introHeroLanding 560ms 980ms var(--ease-out-expo) both;
+}
+.intro-playing .nav { animation: introNavReveal 480ms 980ms var(--ease-out-expo) both; }
+.intro-playing .hero-meta { animation: introLayerIn 440ms 1060ms var(--ease-out-expo) both; }
+.intro-playing .hero-title .row > span { animation: rise 720ms 800ms var(--ease-out-expo) both; }
+.intro-playing .hero-title .row:nth-child(2) > span { animation-delay: 880ms; }
+.intro-playing .hero-actions { animation: introLayerIn 480ms 1020ms var(--ease-out-expo) both; }
+.intro-playing .hero-who { animation: introLayerIn 480ms 1080ms var(--ease-out-expo) both; }
+.intro-playing .hero-media video { animation: introMediaSettle 1200ms 340ms var(--ease-out-expo) both; }
+@keyframes introBrandSequence {
+  0% { opacity: 0; transform: scale(.94); }
+  25%, 68% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes introCoreIn { to { opacity: 1; transform: none; } }
+@keyframes introOverlayExit {
+  to { clip-path: inset(0 0 100% 0); pointer-events: none; }
+}
+@keyframes introHeroLanding {
+  from { transform: translateY(32px) scale(.985); clip-path: inset(0 8px 0 8px round 16px); }
+  to { transform: none; clip-path: inset(0 round 0); }
+}
+@keyframes introNavReveal {
+  from { opacity: 0; transform: translate(-50%, -16px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes introLayerIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes introMediaSettle {
+  from { transform: scale(1.035); }
+  to { transform: scale(1); }
+}
 
 .wrap {
   max-width: var(--max);
@@ -187,30 +279,30 @@ a { color: inherit; text-decoration: none; }
   height: 34%;
   background: linear-gradient(180deg, transparent 0%, rgba(114,190,255,.28) 22%, #e7f5ff 55%, rgba(25,141,255,.46) 78%, transparent 100%);
   filter: drop-shadow(0 0 7px rgba(25,141,255,.95));
-  animation: lineGlowDrop 5.8s cubic-bezier(.45,.05,.3,1) infinite;
+  animation: lineGlowDrop 8.8s linear infinite;
 }
-.hero-lines span:nth-child(2)::after { animation-delay: .65s; }
-.hero-lines span:nth-child(3)::after { animation-delay: 1.3s; }
-.hero-lines span:nth-child(4)::after { animation-delay: 1.95s; }
+.hero-lines span:nth-child(2)::after { animation-delay: 2.2s; }
+.hero-lines span:nth-child(3)::after { animation-delay: 4.4s; }
+.hero-lines span:nth-child(4)::after { animation-delay: 6.6s; }
 @keyframes lineGlowDrop {
-  0%, 12% { transform: translateY(0); opacity: 0; }
-  20% { opacity: 1; }
-  72% { opacity: 1; }
-  86%, 100% { transform: translateY(395%); opacity: 0; }
+  0% { transform: translateY(0); opacity: 0; }
+  2% { opacity: .65; }
+  18% { transform: translateY(395%); opacity: .65; }
+  20%, 100% { transform: translateY(395%); opacity: 0; }
 }
 .hero-film-grain {
   position: absolute;
   z-index: 2;
   inset: 0;
   pointer-events: none;
-  opacity: .11;
+  opacity: .065;
   mix-blend-mode: soft-light;
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E"),
     radial-gradient(ellipse at center, transparent 45%, rgba(18, 9, 2, .42) 100%),
     linear-gradient(180deg, rgba(116, 74, 38, .1), rgba(8, 15, 24, .08));
   background-size: 170px 170px, 100% 100%, 100% 100%;
-  animation: filmGrainShift 1.4s steps(2) infinite;
+  animation: none;
 }
 @keyframes filmGrainShift {
   0% { background-position: 0 0, center, center; }
@@ -437,7 +529,7 @@ a { color: inherit; text-decoration: none; }
   content: '';
   width: 1px; height: 56px;
   background: linear-gradient(var(--text-faint), transparent);
-  animation: drip 2s infinite;
+  animation: drip 2.8s infinite;
 }
 @keyframes drip {
   0% { transform: scaleY(0); transform-origin: top; }
@@ -2300,6 +2392,25 @@ button.info-v:hover { color: var(--accent); }
 }
 
 @media (max-width: 700px) {
+  .intro-overlay { animation: introOverlayExit 240ms 480ms var(--ease-out-expo) forwards; }
+  .intro-brand-group { animation-duration: 300ms; }
+  .intro-core-copy {
+    flex-direction: column;
+    gap: 2px;
+    text-align: center;
+    white-space: normal;
+    font-size: 30px;
+    animation: introCoreIn 180ms 280ms var(--ease-out-expo) forwards;
+  }
+  .intro-playing .hero { animation: introHeroLanding 340ms 480ms var(--ease-out-expo) both; }
+  .intro-playing .nav { animation: introNavRevealMobile 300ms 500ms var(--ease-out-expo) both; }
+  .intro-playing .hero-meta { animation: introLayerIn 260ms 520ms var(--ease-out-expo) both; }
+  .intro-playing .hero-title .row > span { animation: rise 280ms 480ms var(--ease-out-expo) both; }
+  .intro-playing .hero-title .row:nth-child(2) > span { animation-delay: 540ms; }
+  .intro-playing .hero-title .row:nth-child(3) > span { animation-delay: 570ms; }
+  .intro-playing .hero-actions { animation: introLayerIn 240ms 580ms var(--ease-out-expo) both; }
+  .intro-playing .hero-who { animation: introLayerIn 240ms 620ms var(--ease-out-expo) both; }
+  .intro-playing .hero-media video { animation: introMediaSettleMobile 620ms 180ms var(--ease-out-expo) both; }
   .hero {
     height: 100svh;
     min-height: 0;
@@ -2391,6 +2502,15 @@ button.info-v:hover { color: var(--accent); }
     text-align: center;
   }
   .footer-bar span:nth-child(n + 2) { display: none; }
+}
+
+@keyframes introNavRevealMobile {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes introMediaSettleMobile {
+  from { transform: translateY(-10%) scale(1.035); }
+  to { transform: translateY(-10%) scale(1); }
 }
 
 @media (min-width: 560px) and (max-width: 700px) {

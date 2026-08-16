@@ -3,6 +3,7 @@ import OptionWheel from './components/OptionWheel.jsx'
 import ZoomableBoard from './components/ZoomableBoard.jsx'
 import SideRays from './components/SideRays.jsx'
 
+import FoldText from './components/FoldText.jsx'
 const HERO_CORE_LEAD = '探索未来数字产品的'
 const HERO_CORE_EMPHASIS = '体验边界'
 const HERO_CORE_COPY = `${HERO_CORE_LEAD}${HERO_CORE_EMPHASIS}。`
@@ -524,16 +525,7 @@ function About() {
         <div className="about-stage">
           <div className="about-copy">
             <span className="section-index">01 / ABOUT ME</span>
-            <h2 ref={titleRef} className="about-title-motion" aria-label="从想法到落地，设计不只是画面">
-              <span className="about-title-line">
-                <span className="about-title-base">从想法到落地，</span>
-                <span className="about-title-highlight" aria-hidden="true">从想法到落地，</span>
-              </span>
-              <span className="about-title-line">
-                <span className="about-title-base">设计不只是画面</span>
-                <span className="about-title-highlight" aria-hidden="true">设计不只是画面</span>
-              </span>
-            </h2>
+            <h2 ref={titleRef} className="about-title-motion"><FoldText text={'从想法到落地，\n设计不只是画面'} splitBy="line" /></h2>
             <p>
               我是许咏芳，一名拥有 3 年经验的 UI/UX 设计师，我参与过移动端、PC、Web 与后台产品的体验设计，也负责用户研究、交互优化和多端设计系统建设。
             </p>
@@ -565,7 +557,6 @@ function About() {
               <div className="profile-video-placeholder">
                 <img src="/images/personal-video-cover.png" alt="个人视频封面" />
                 <div className="video-placeholder-glow" />
-                <button type="button" aria-label="个人视频占位">▶</button>
               </div>
             </div>
           </div>
@@ -632,7 +623,7 @@ function Works() {
         <div className="section-head" data-motion="fade">
           <div>
             <span className="section-index">02 / SELECTED WORKS</span>
-            <h2 className="section-title">精选项目</h2>
+            <h2 className="section-title"><FoldText text="精选项目" /></h2>
           </div>
           <p className="section-note">两个完整项目，体现我在用户洞察、流程梳理与界面表达上的综合能力。</p>
         </div>
@@ -899,7 +890,7 @@ function MoreWorks() {
         <aside className="more-sticky reveal">
           <div className="more-sticky-top">
             <span className="section-index">03 / MORE WORKS</span>
-            <h2 className="section-title">更多项目</h2>
+            <h2 className="section-title"><FoldText text="更多项目" /></h2>
             <p className="section-note">过程稿与界面呈现，让设计逻辑更清晰。</p>
             <nav className="more-nav" aria-label="更多项目导航">
               {MORE.map((m, index) => (
@@ -954,7 +945,7 @@ function Strengths() {
         <div className="section-head" data-motion="fade">
           <div>
             <span className="section-index">04 / STRENGTHS</span>
-            <h2 className="section-title">我能做的事</h2>
+            <h2 className="section-title"><FoldText text="我能做的事" /></h2>
           </div>
           <p className="section-note">与其观望 AI，不如先动手试 —— 试了才知道哪里是真的深。</p>
         </div>
@@ -1024,12 +1015,7 @@ function Contact() {
       <SideRays className="contact-side-rays" />
       <div className="wrap">
         <div data-motion="contact">
-          <h2 ref={titleRef} className="contact-title" aria-label="LET'S 聊聊">
-            <span className="contact-title-line">
-              <span className="contact-title-base">LET'S <span className="cn">聊聊</span></span>
-              <span className="contact-title-highlight" aria-hidden="true">LET'S <span className="cn">聊聊</span></span>
-            </span>
-          </h2>
+          <h2 ref={titleRef} className="contact-title"><span className="contact-title-line"><FoldText text="LET'S 聊聊" className="contact-fold-text" /></span></h2>
           <p className="contact-sub">
             正在寻找新的机会与合作 —— 无论是产品设计的全职岗位，还是有趣的项目委托，
             <br />都欢迎随时联系我。

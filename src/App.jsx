@@ -232,34 +232,32 @@ function Hero() {
           <span className="hero-meta-mobile">UI/UX DESIGNER · SaaS / AI</span>
         </div>
         <h1 className="hero-title">
-          <span className="sr-only">我是许咏芳，探索未来生产力工具的体验边界。</span>
+          <span className="sr-only">我是许咏芳，探索未来数字产品的体验边界。</span>
           <span className="hero-title-desktop" aria-hidden="true">
             <span className="row"><span>
               我是许咏芳，
-              <span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>探索</span>
             </span></span>
             <span className="row"><span>
-              未来生产力工具的<em>体验边界</em>。
+              <span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>探索未来数字产品的<em>体验边界</em>。</span>
             </span></span>
           </span>
           <span className="hero-title-mobile" aria-hidden="true">
-            <span className="row"><span>我是许咏芳，</span></span>
             <span className="row"><span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>探索</span></span>
-            <span className="row"><span>未来生产力工具的</span></span>
-            <span className="row"><span><em>体验边界</em>。</span></span>
+            <span className="row"><span>未来数字产品的</span></span>
+            <span className="row"><span><em>体验边界</em></span></span>
           </span>
         </h1>
         <div className="hero-foot">
           <div className="hero-actions">
-            <a className="btn-primary" href="#works">查看项目 <span aria-hidden="true">↓</span></a>
+            <a className="btn-primary" href="#works">查看项目</a>
             <a className="btn-ghost" href="/xuyongfang-portfolio.pdf" download="作品集-许咏芳-UXUI.pdf">
-              <span className="hero-download-wide">下载作品集 ↗</span>
-              <span className="hero-download-compact">下载PDF ↗</span>
+              <span className="hero-download-wide">下载作品集</span>
+              <span className="hero-download-compact">下载PDF</span>
             </a>
           </div>
           <div className="hero-who">
             <p>
-              <span className="who-star">✳</span> 我把视觉表达、产品思维和 AI 工作流揉成一套能落地的设计能力，
+              我把视觉表达、产品思维和 AI 工作流揉成一套能落地的设计能力，
               擅长企业级 SaaS 与 AI 产品的体验设计 —— 不只输出高保真图，更参与决策。
             </p>
           </div>
@@ -280,17 +278,21 @@ function About() {
   const messageCountRef = useRef(visibleMessages)
   const profileMessages = [
     { type: 'system', text: '你好，我是许咏芳的个人介绍助手。' },
-    { type: 'answer', text: '我是一名聚焦企业级 SaaS 与 AI 产品的 UI/UX 设计师。' },
-    { type: 'question', text: '你擅长什么？' },
-    { type: 'answer', text: '擅长从 0 到 1 梳理复杂产品，将用户研究、信息架构、交互与视觉统一到可落地的体验中。' },
-    { type: 'question', text: '最近在做什么？' },
-    { type: 'answer', text: '正在探索 AI 智能笔记、B/C 端组件库和数据驱动的产品设计。' },
-    { type: 'answer', text: '我相信设计不只是画面，而是把复杂的事情变得清晰、高效且有记忆点。' },
+    { type: 'answer', text: '这里不重复简历，聊聊我怎么思考、怎么合作，以及工作之外的我。' },
+    { type: 'question', text: '你做设计时最在意什么？' },
+    { type: 'answer', text: '先把问题问清楚。比起马上画界面，我更愿意确认用户为什么卡住、团队真正需要解决什么。' },
+    { type: 'question', text: '你怎么看 AI 设计？' },
+    { type: 'answer', text: '我把 AI 当成共同工作的工具：用它扩展探索、加快验证，但最终判断仍然来自对用户和场景的理解。' },
+    { type: 'question', text: '和你合作会是什么感觉？' },
+    { type: 'answer', text: '我会主动同步过程，也愿意听不同意见。复杂项目里，我通常是那个把分散信息重新整理清楚的人。' },
+    { type: 'question', text: '工作之外的你呢？' },
+    { type: 'answer', text: '我喜欢独立游戏、积木、手作和 3D 打印。它们让我持续观察声音、画面与交互，也让我享受把想法做成实物的过程。' },
   ]
   const displayMessages = profileMessages.slice(1)
   useEffect(() => { messageCountRef.current = visibleMessages }, [visibleMessages])
   useEffect(() => {
     const onWheel = (event) => {
+      if (window.matchMedia('(max-width: 700px)').matches) return
       const panel = document.querySelector('.profile-interface')
       if (!panel) return
       const rect = panel.getBoundingClientRect()
@@ -301,8 +303,7 @@ function About() {
 
       const direction = Math.sign(event.deltaY)
       const atEnd = visibleMessages >= displayMessages.length
-      const atStart = visibleMessages <= 1
-      if ((direction > 0 && atEnd) || (direction < 0 && atStart) || direction === 0) return
+      if (direction <= 0 || atEnd) return
 
       event.preventDefault()
       wheelDeltaRef.current += Math.min(Math.abs(event.deltaY), 100)
@@ -310,7 +311,7 @@ function About() {
       wheelDeltaRef.current = 0
       wheelLockRef.current = true
       setVisibleMessages((count) => {
-        const next = Math.max(1, Math.min(count + direction, displayMessages.length))
+        const next = Math.min(count + 1, displayMessages.length)
         if (next >= displayMessages.length) {
           window.clearTimeout(releaseTimerRef.current)
           releaseTimerRef.current = window.setTimeout(() => { wheelLockRef.current = false }, 120)
@@ -343,12 +344,11 @@ function About() {
             <span className="section-index">01 / ABOUT ME</span>
             <h2>从想法到落地，<br />设计不只是画面</h2>
             <p>
-              我是许咏芳，一名聚焦企业级 SaaS 与 AI 产品的设计师。
-              我把视觉表达、产品思维和 AI 工作流组合起来，让复杂工具更清晰、更高效，也更有记忆点。
+              我是许咏芳，一名拥有 3 年经验的 UI/UX 设计师，我参与过移动端、PC、Web 与后台产品的体验设计，也负责用户研究、交互优化和多端设计系统建设。
             </p>
             <div className="about-actions">
-              <a className="about-cta solid" href="#works">查看项目 <span>↗</span></a>
-              <CopyButton value="1403790559@qq.com" className="about-cta btn-ghost">联系我 <span>↗</span></CopyButton>
+              <a className="about-cta solid" href="/xuyongfang-portfolio.pdf" download="作品集-许咏芳-UXUI.pdf">简历下载</a>
+              <CopyButton value="1403790559@qq.com" className="about-cta btn-ghost">联系我</CopyButton>
             </div>
           </div>
 
@@ -464,13 +464,48 @@ function Works() {
   )
 }
 
+const WELINK_CHAPTER_IDS = ['section-cover', 'section-background', 'section-touchpoint', 'section-journey', 'section-bottleneck', 'section-visual', 'section-overview', 'section-page-exploration', 'section-pc', 'section-closing']
+const NIANYU_CHAPTER_IDS = ['project-cover', 'project-background', 'project-insight', 'project-process', 'project-solution']
+
+function useActiveChapter(ids) {
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const marker = window.scrollY + window.innerHeight * 0.36
+      let nextIndex = 0
+      ids.forEach((id, index) => {
+        const element = document.getElementById(id)
+        if (element && element.offsetTop <= marker) nextIndex = index
+      })
+      setActiveIndex((current) => current === nextIndex ? current : nextIndex)
+    }
+    const scheduleUpdate = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener('scroll', scheduleUpdate, { passive: true })
+    window.addEventListener('resize', scheduleUpdate)
+    return () => {
+      window.removeEventListener('scroll', scheduleUpdate)
+      window.removeEventListener('resize', scheduleUpdate)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [ids])
+
+  return activeIndex
+}
+
 function WelinkProject() {
   const [showProjectMenu, setShowProjectMenu] = useState(false)
+  const activeChapter = useActiveChapter(WELINK_CHAPTER_IDS)
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
   useEffect(() => {
-    const background = document.getElementById('project-background')
+    const background = document.getElementById('section-background')
     if (!background) return
     const onScroll = () => setShowProjectMenu(background.getBoundingClientRect().top <= window.innerHeight * 0.72)
     onScroll()
@@ -486,25 +521,29 @@ function WelinkProject() {
       </header>
       <div className={`project-option-wheel ${showProjectMenu ? 'is-visible' : ''}`}>
         <OptionWheel
-          items={['项目封面', '项目背景', '核心洞察', '设计过程', '最终方案']}
+          items={['封面', '项目背景', '用户触点分析', '用户旅程图', '洞察与瓶颈', '视觉推导', '页面总览', '设计方案探索', 'pc端方案', '封底']}
+          activeIndex={activeChapter}
           defaultSelected={0}
           textColor="#a6a6a6"
           activeColor="#ffffff"
           side="right"
-          fontSize={1}
-          spacing={1.55}
-          curve={0.1}
-          tilt={2}
-          blur={1}
-          fade={0.25}
+          fontSize={0.875}
+          spacing={2}
+          curve={0}
+          tilt={0}
+          blur={0.2}
+          fade={0.07}
+          minOpacity={0.24}
           smoothing={200}
           inset={80}
           loop={false}
-          draggable
+          draggable={false}
+          wheelable={false}
+          className="option-wheel--navigation-only"
           soundUrl="/sounds/click-soft.mp3"
           soundVolume={0.5}
-          onChange={(index) => {
-            const ids = ['project-cover', 'project-background', 'project-insight', 'project-process', 'project-solution']
+          onItemClick={(index) => {
+            const ids = WELINK_CHAPTER_IDS
             document.getElementById(ids[index])?.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }}
         />
@@ -519,40 +558,40 @@ function WelinkProject() {
           <div><dt>产品平台</dt><dd>移动端 + PC + 网页</dd></div>
         </dl>
       </section>
-      <ZoomableBoard className="project-cover" id="project-cover" label="WeLink 智能笔记项目封面" src="/images/projects/welink/cover-01.png" alt="WeLink 智能笔记，云笔记全新智能升级" eager />
-      <ZoomableBoard className="project-board project-board-background" id="project-background" label="WeLink 项目背景" src="/images/projects/welink/background-02.png" alt="WeLink 项目背景、行业困境与升级方向" />
-      <ZoomableBoard className="project-board project-board-insight" id="project-insight" label="WeLink 核心洞察与北极星指标" src="/images/projects/welink/insight-03.png" alt="WeLink 北极星指标与用户产品体验触点" />
-      <ZoomableBoard className="project-board project-board-process" id="project-process" label="WeLink 产品体验与用户触点分析" src="/images/projects/welink/process-04.png" alt="WeLink 知识循环系统、产品体验与用户触点分析" />
-      <ZoomableBoard className="project-board project-board-journey" label="WeLink 用户体验旅程与痛点机会分析" src="/images/projects/welink/journey-05.png" alt="WeLink 用户体验旅程、痛点与设计机会分析" />
-      <ZoomableBoard className="project-board project-board-deconstruction" label="WeLink 三阶段知识闭环" src="/images/projects/welink/deconstruction-06.png" alt="WeLink 三阶段知识闭环与设计思路" />
-      <ZoomableBoard className="project-board project-board-immersive-journey" label="WeLink 沉浸式创作旅程" src="/images/projects/welink/immersive-journey-07.png" alt="WeLink 沉浸式创作旅程与痛点拆解" />
-      <ZoomableBoard className="project-board project-board-immersive-solution" label="WeLink 沉浸式创作方案" src="/images/projects/welink/immersive-solution-08.png" alt="WeLink 沉浸式创作交互方案" />
-      <ZoomableBoard className="project-board project-board-immersive-validation" label="WeLink 沉浸式创作验证" src="/images/projects/welink/immersive-validation-09.png" alt="WeLink 沉浸式创作设计难点与用户验证" />
-      <ZoomableBoard className="project-board project-board-rebirth-insight" label="WeLink 智能再生洞察" src="/images/projects/welink/intelligent-rebirth-insight-10.png" alt="WeLink 智能再生用户洞察" />
-      <ZoomableBoard className="project-board project-board-rebirth-solution" label="WeLink 智能再生方案" src="/images/projects/welink/intelligent-rebirth-solution-11.png" alt="WeLink 智能再生交互方案" />
-      <ZoomableBoard className="project-board project-board-knowledge-transition" label="WeLink 协同流转承接" src="/images/projects/welink/knowledge-flow-transition-12.png" alt="WeLink 协同流转章节承接" />
-      <ZoomableBoard className="project-board project-board-knowledge-solution" label="WeLink 协同流转方案" src="/images/projects/welink/knowledge-flow-solution-13.png" alt="WeLink 协同流转交互方案" />
-      <ZoomableBoard className="project-board project-board-knowledge-scenarios" label="WeLink 协同流转场景" src="/images/projects/welink/knowledge-flow-scenarios-14.png" alt="WeLink 协同流转场景策略" />
-      <ZoomableBoard className="project-board project-board-visual-intro" id="project-solution" label="WeLink 视觉推导" src="/images/projects/welink/visual-derivation-intro-15.png" alt="WeLink 视觉推导章节" />
-      <ZoomableBoard className="project-board project-board-visual-language" label="WeLink 设计语言" src="/images/projects/welink/visual-language-16.png" alt="WeLink 设计语言与设计原则" />
-      <ZoomableBoard className="project-board project-board-design-vision" label="WeLink 设计愿景" src="/images/projects/welink/design-vision-17.png" alt="WeLink 智能零感协作体验设计愿景" />
-      <ZoomableBoard className="project-board project-board-symbol-exploration" label="WeLink 元素探索" src="/images/projects/welink/symbol-exploration-18.png" alt="WeLink 智能笔记图形元素探索" />
-      <ZoomableBoard className="project-board project-board-visual-application" label="WeLink 视觉应用" src="/images/projects/welink/visual-application-19.png" alt="WeLink 视觉语言与界面应用" />
-      <ZoomableBoard className="project-board project-board-visual-summary" label="WeLink 视觉总结" src="/images/projects/welink/visual-summary-20.png" alt="WeLink 视觉推导总结" />
-      <ZoomableBoard className="project-board project-board-final-showcase" label="WeLink 最终成果" src="/images/projects/welink/final-showcase-21.png" alt="WeLink 最终设计成果展示" />
-      <ZoomableBoard className="project-board project-board-page-exploration" label="WeLink 页面方案探索" src="/images/projects/welink/page-exploration-22.png" alt="WeLink 页面设计方案探索" />
-      <ZoomableBoard className="project-board project-board-visual-strategy" label="WeLink 视觉策略" src="/images/projects/welink/visual-strategy-23.png" alt="WeLink 设计语言与核心场景" />
-      <ZoomableBoard className="project-board project-board-home-design" label="WeLink 首页设计" src="/images/projects/welink/home-design-24.png" alt="WeLink 笔记首页设计思路" />
-      <ZoomableBoard className="project-board project-board-home-comparison" label="WeLink 首页升级对比" src="/images/projects/welink/home-comparison-25.png" alt="WeLink 笔记首页升级前后对比" />
-      <ZoomableBoard className="project-board project-board-editor-upgrade" label="WeLink 编辑页升级" src="/images/projects/welink/editor-upgrade-26.png" alt="WeLink 智能创作编辑页升级" />
-      <ZoomableBoard className="project-board project-board-editor-comparison" label="WeLink 编辑页对比" src="/images/projects/welink/editor-comparison-27.png" alt="WeLink 编辑页面升级前后对比" />
-      <ZoomableBoard className="project-board project-board-ai-dual-mode" label="WeLink AI 双模式" src="/images/projects/welink/ai-dual-mode-28.png" alt="WeLink AI 帮写与知识问答双模式" />
-      <ZoomableBoard className="project-board project-board-search-paradigm" label="WeLink 搜索范式" src="/images/projects/welink/search-paradigm-29.png" alt="WeLink 关键词搜索与自然语言问答" />
-      <ZoomableBoard className="project-board project-board-voice-intelligence" label="WeLink 语音智能处理" src="/images/projects/welink/voice-intelligence-30.png" alt="WeLink 实时语音智能处理" />
-      <ZoomableBoard className="project-board project-board-team-intelligence" label="WeLink 团队智慧生命体" src="/images/projects/welink/team-intelligence-31.png" alt="WeLink 嵌入式智能协作空间" />
-      <ZoomableBoard className="project-board project-board-knowledge-recommendation" label="WeLink 知识推荐系统" src="/images/projects/welink/knowledge-recommendation-32.png" alt="WeLink 多触点知识推荐系统" />
-      <ZoomableBoard className="project-board project-board-sharing-value" label="WeLink 分享与价值反馈" src="/images/projects/welink/sharing-value-33.png" alt="WeLink 分层分享与价值反馈" />
-      <ZoomableBoard className="project-board project-board-closing" label="WeLink 项目结束" src="/images/projects/welink/closing-45.png" alt="WeLink 项目感谢观看" />
+      <ZoomableBoard className="project-cover" id="section-cover" label="封面" src="/images/projects/welink/cover-01.png" alt="WeLink 智能笔记，云笔记全新智能升级" eager />
+      <ZoomableBoard className="project-board project-board-background" id="section-background" label="项目背景" src="/images/projects/welink/background-02.png" alt="WeLink 项目背景、行业困境与升级方向" />
+      <ZoomableBoard className="project-board project-board-insight" label="项目背景" src="/images/projects/welink/insight-03.png" alt="WeLink 北极星指标与用户产品体验触点" />
+      <ZoomableBoard className="project-board project-board-process" id="section-touchpoint" label="用户触点分析" src="/images/projects/welink/process-04.png" alt="WeLink 知识循环系统、产品体验与用户触点分析" />
+      <ZoomableBoard className="project-board project-board-journey" id="section-journey" label="用户旅程图" src="/images/projects/welink/journey-05.png" alt="WeLink 用户体验旅程、痛点与设计机会分析" />
+      <ZoomableBoard className="project-board project-board-deconstruction" id="section-bottleneck" label="洞察与瓶颈" src="/images/projects/welink/deconstruction-06.png" alt="WeLink 三阶段知识闭环与设计思路" />
+      <ZoomableBoard className="project-board project-board-immersive-journey" label="洞察与瓶颈" src="/images/projects/welink/immersive-journey-07.png" alt="WeLink 沉浸式创作旅程与痛点拆解" />
+      <ZoomableBoard className="project-board project-board-immersive-solution" label="洞察与瓶颈" src="/images/projects/welink/immersive-solution-08.png" alt="WeLink 沉浸式创作交互方案" />
+      <ZoomableBoard className="project-board project-board-immersive-validation" label="洞察与瓶颈" src="/images/projects/welink/immersive-validation-09.png" alt="WeLink 沉浸式创作设计难点与用户验证" />
+      <ZoomableBoard className="project-board project-board-rebirth-insight" label="洞察与瓶颈" src="/images/projects/welink/intelligent-rebirth-insight-10.png" alt="WeLink 智能再生用户洞察" />
+      <ZoomableBoard className="project-board project-board-rebirth-solution" label="洞察与瓶颈" src="/images/projects/welink/intelligent-rebirth-solution-11.png" alt="WeLink 智能再生交互方案" />
+      <ZoomableBoard className="project-board project-board-knowledge-transition" label="洞察与瓶颈" src="/images/projects/welink/knowledge-flow-transition-12.png" alt="WeLink 协同流转章节承接" />
+      <ZoomableBoard className="project-board project-board-knowledge-solution" label="洞察与瓶颈" src="/images/projects/welink/knowledge-flow-solution-13.png" alt="WeLink 协同流转交互方案" />
+      <ZoomableBoard className="project-board project-board-knowledge-scenarios" label="洞察与瓶颈" src="/images/projects/welink/knowledge-flow-scenarios-14.png" alt="WeLink 协同流转场景策略" />
+      <ZoomableBoard className="project-board project-board-visual-intro" id="section-visual" label="视觉推导" src="/images/projects/welink/visual-derivation-intro-15.png" alt="WeLink 视觉推导章节" />
+      <ZoomableBoard className="project-board project-board-visual-language" label="视觉推导" src="/images/projects/welink/visual-language-16.png" alt="WeLink 设计语言与设计原则" />
+      <ZoomableBoard className="project-board project-board-design-vision" label="视觉推导" src="/images/projects/welink/design-vision-17.png" alt="WeLink 智能零感协作体验设计愿景" />
+      <ZoomableBoard className="project-board project-board-symbol-exploration" label="视觉推导" src="/images/projects/welink/symbol-exploration-18.png" alt="WeLink 智能笔记图形元素探索" />
+      <ZoomableBoard className="project-board project-board-visual-application" label="视觉推导" src="/images/projects/welink/visual-application-19.png" alt="WeLink 视觉语言与界面应用" />
+      <ZoomableBoard className="project-board project-board-visual-summary" label="视觉推导" src="/images/projects/welink/visual-summary-20.png" alt="WeLink 视觉推导总结" />
+      <ZoomableBoard className="project-board project-board-final-showcase" id="section-overview" label="页面总览" src="/images/projects/welink/final-showcase-21.png" alt="WeLink 最终设计成果展示" />
+      <ZoomableBoard className="project-board project-board-page-exploration" id="section-page-exploration" label="设计方案探索" src="/images/projects/welink/page-exploration-22.png" alt="WeLink 页面设计方案探索" />
+      <ZoomableBoard className="project-board project-board-visual-strategy" label="设计方案探索" src="/images/projects/welink/visual-strategy-23.png" alt="WeLink 设计语言与核心场景" />
+      <ZoomableBoard className="project-board project-board-home-design" label="设计方案探索" src="/images/projects/welink/home-design-24.png" alt="WeLink 笔记首页设计思路" />
+      <ZoomableBoard className="project-board project-board-home-comparison" label="设计方案探索" src="/images/projects/welink/home-comparison-25.png" alt="WeLink 笔记首页升级前后对比" />
+      <ZoomableBoard className="project-board project-board-editor-upgrade" label="设计方案探索" src="/images/projects/welink/editor-upgrade-26.png" alt="WeLink 智能创作编辑页升级" />
+      <ZoomableBoard className="project-board project-board-editor-comparison" label="设计方案探索" src="/images/projects/welink/editor-comparison-27.png" alt="WeLink 编辑页面升级前后对比" />
+      <ZoomableBoard className="project-board project-board-ai-dual-mode" label="设计方案探索" src="/images/projects/welink/ai-dual-mode-28.png" alt="WeLink AI 帮写与知识问答双模式" />
+      <ZoomableBoard className="project-board project-board-search-paradigm" label="设计方案探索" src="/images/projects/welink/search-paradigm-29.png" alt="WeLink 关键词搜索与自然语言问答" />
+      <ZoomableBoard className="project-board project-board-voice-intelligence" label="设计方案探索" src="/images/projects/welink/voice-intelligence-30.png" alt="WeLink 实时语音智能处理" />
+      <ZoomableBoard className="project-board project-board-team-intelligence" id="section-pc" label="pc端方案" src="/images/projects/welink/team-intelligence-31.png" alt="WeLink 嵌入式智能协作空间" />
+      <ZoomableBoard className="project-board project-board-knowledge-recommendation" label="pc端方案" src="/images/projects/welink/knowledge-recommendation-32.png" alt="WeLink 多触点知识推荐系统" />
+      <ZoomableBoard className="project-board project-board-sharing-value" label="pc端方案" src="/images/projects/welink/sharing-value-33.png" alt="WeLink 分层分享与价值反馈" />
+      <ZoomableBoard className="project-board project-board-closing" id="section-closing" label="封底" src="/images/projects/welink/closing-45.png" alt="WeLink 项目感谢观看" />
       <button className="project-to-top" type="button" aria-label="返回顶部" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <span aria-hidden="true">↑</span>
       </button>
@@ -562,6 +601,7 @@ function WelinkProject() {
 
 function NianyuProject() {
   const [showProjectMenu, setShowProjectMenu] = useState(false)
+  const activeChapter = useActiveChapter(NIANYU_CHAPTER_IDS)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -587,23 +627,26 @@ function NianyuProject() {
       <div className={`project-option-wheel ${showProjectMenu ? 'is-visible' : ''}`}>
         <OptionWheel
           items={['项目封面', '项目背景', '核心洞察', '设计方案', '项目复盘']}
+          activeIndex={activeChapter}
           defaultSelected={0}
           textColor="#a6a6a6"
           activeColor="#ffffff"
           side="right"
           fontSize={1}
           spacing={1.55}
-          curve={0.1}
-          tilt={2}
+          curve={0}
+          tilt={0}
           blur={1}
           fade={0.25}
           smoothing={200}
           inset={80}
           loop={false}
-          draggable
+          draggable={false}
+          wheelable={false}
+          className="option-wheel--navigation-only"
           soundUrl="/sounds/click-soft.mp3"
           soundVolume={0.5}
-          onChange={(index) => {
+          onItemClick={(index) => {
             const ids = ['project-cover', 'project-background', 'project-insight', 'project-process', 'project-solution']
             document.getElementById(ids[index])?.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }}
@@ -644,7 +687,7 @@ const MORE = [
   { no: '(02)', h: '智能手环 · 产品设计', p: '智能穿戴设备的产品造型、材质与动态视觉呈现。', img: '/images/more-projects/02-bracelet.png' },
   { no: '(03)', h: '机械手臂 · 动态实验', p: '机械装置与磨砂颗粒语言结合的循环动画实验。', img: '/images/more-projects/03-robot-arm.gif' },
   { no: '(04)', h: '破碎 Logo · 动效设计', p: '围绕品牌标识展开的破碎、聚合与循环动态探索。', img: '/images/more-projects/04-logo.gif' },
-  { no: '(05)', h: '安克开学季 · 视觉设计', p: '面向海外开学季活动的电商主视觉与营销表达。', img: '/images/more-projects/05-back-to-school.png' },
+  { no: '(05)', h: '图拉斯开学季 · 视觉设计', p: '围绕图拉斯海外开学季促销，完成电商主视觉与年轻化营销表达。', img: '/images/more-projects/05-back-to-school.png' },
 ]
 
 function MoreWorks() {
@@ -772,7 +815,7 @@ function Contact() {
           </div>
         </div>
         <div className="footer-bar">
-          <span>© 2026 XU YONGFANG — PORTFOLIO</span>
+          <span>© 2026 XU YONGFANG</span>
           <span>VISUAL / AI / BRAND DESIGNER</span>
           <span>SHENZHEN, CN</span>
         </div>

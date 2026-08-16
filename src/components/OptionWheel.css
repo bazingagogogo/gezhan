@@ -18,6 +18,11 @@
   cursor: grabbing;
 }
 
+.option-wheel--navigation-only {
+  cursor: default;
+  touch-action: auto;
+}
+
 /* Each option is absolutely centered, then offset along the curve by the
    rAF loop through transform/opacity/filter, so everything stays in step. */
 .option-wheel__item {

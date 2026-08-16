@@ -34,6 +34,9 @@ const OptionWheel = ({
   inset = 80,
   loop = false,
   draggable = true,
+  wheelable = true,
+  onItemClick,
+  activeIndex,
   soundUrl = '',
   soundVolume = 0.5,
   className = ''
@@ -46,6 +49,7 @@ const OptionWheel = ({
   const lastRef = useRef(0);
   const cfgRef = useRef({});
   const onChangeRef = useRef(onChange);
+  const onItemClickRef = useRef(onItemClick);
   const selectedRef = useRef(defaultSelected);
   const wheelTimerRef = useRef(null);
   const dragRef = useRef(null);
@@ -59,6 +63,7 @@ const OptionWheel = ({
   const remPx = typeof window !== 'undefined' ? parseFloat(getComputedStyle(document.documentElement).fontSize) || 16 : 16;
 
   onChangeRef.current = onChange;
+  onItemClickRef.current = onItemClick;
   cfgRef.current = {
     count: items.length,
     items,
@@ -72,6 +77,7 @@ const OptionWheel = ({
     loop,
     smoothing,
     draggable,
+    wheelable,
     soundUrl,
     soundVolume
   };
@@ -176,7 +182,7 @@ const OptionWheel = ({
   // Wheel / touchpad scrolling, registered manually so it can be non-passive.
   useEffect(() => {
     const el = rootRef.current;
-    if (!el) return;
+    if (!el || !wheelable) return;
     const onWheel = e => {
       e.preventDefault();
       const cfg = cfgRef.current;
@@ -193,7 +199,7 @@ const OptionWheel = ({
       el.removeEventListener('wheel', onWheel);
       if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
     };
-  }, [applyTarget]);
+  }, [applyTarget, wheelable]);
 
   const handlePointerDown = useCallback(e => {
     if (!cfgRef.current.draggable) return;
@@ -236,6 +242,7 @@ const OptionWheel = ({
         else if (d < -cfg.count / 2) d += cfg.count;
       }
       applyTarget(cur + d, true);
+      onItemClickRef.current?.(index, cfg.items[index]);
     },
     [applyTarget]
   );
@@ -255,6 +262,11 @@ const OptionWheel = ({
   useEffect(() => {
     applyTarget(targetRef.current, false);
   }, [items, fontSize, spacing, curve, tilt, blur, fade, minOpacity, side, loop, smoothing, applyTarget]);
+
+  useEffect(() => {
+    if (!Number.isInteger(activeIndex)) return;
+    applyTarget(activeIndex, true);
+  }, [activeIndex, applyTarget]);
 
   useEffect(
     () => () => {

@@ -1727,6 +1727,18 @@ button.info-v:hover { color: var(--accent); }
   border-radius: 28px;
   border-color: rgba(255,255,255,.08);
 }
+.works-gallery .work-card[data-motion="project"] .work-visual {
+  clip-path: inset(0 0 10% 0 round 28px);
+  transition: clip-path 760ms var(--ease-out-expo) var(--motion-delay);
+}
+.works-gallery .work-card[data-motion="project"] .work-visual .art-img {
+  transform: scale(1.045);
+  transition: transform 760ms var(--ease-out-expo) var(--motion-delay);
+}
+.works-gallery .work-card[data-motion="project"].motion-in .work-visual {
+  clip-path: inset(0 round 28px);
+}
+.works-gallery .work-card[data-motion="project"].motion-in .work-visual .art-img { transform: scale(1); }
 .works-gallery .work-caption {
   position: absolute;
   z-index: 2;
@@ -1742,6 +1754,15 @@ button.info-v:hover { color: var(--accent); }
   background: linear-gradient(to top, rgba(5,6,8,.82), rgba(5,6,8,.42) 55%, transparent);
   color: #fff;
   pointer-events: none;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 520ms var(--ease-out-expo) calc(var(--motion-delay) + 80ms), transform 520ms var(--ease-out-expo) calc(var(--motion-delay) + 80ms);
+}
+.works-gallery .work-card.motion-in .work-caption { opacity: 1; transform: none; }
+.works-gallery .work-card:hover .work-visual { transform: none; }
+.works-gallery .work-card:hover .work-visual .art-img {
+  transform: scale(1.025);
+  transition-duration: 220ms;
 }
 .works-gallery .work-caption h3 {
   margin: 0;
@@ -2086,7 +2107,9 @@ button.info-v:hover { color: var(--accent); }
   height: auto;
   display: block;
   mix-blend-mode: screen;
+  transition: transform 220ms var(--ease-out-expo);
 }
+.strength-card:hover .sc-art img { transform: translateY(-4px) scale(1.02); }
 .strength-card:hover .sc-no {
   background: rgba(0, 0, 0, 0.22);
   border-color: transparent;

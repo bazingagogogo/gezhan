@@ -57,7 +57,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; overflow-x: clip; }
 body {
   background: var(--bg);
   color: var(--text);
@@ -2486,7 +2486,7 @@ button.info-v:hover { color: var(--accent); }
   .hero-content {
     padding: clamp(108px, 13vh, 138px) 32px 46px;
   }
-  .hero-title { font-size: clamp(48px, 6.2vw, 68px); }
+  .hero-title { font-size: clamp(40px, 5.7vw, 68px); }
   .hero-actions { margin-top: 42px; }
   .hero-foot {
     grid-template-columns: 1fr;
@@ -2639,6 +2639,10 @@ button.info-v:hover { color: var(--accent); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .intro-overlay { display: none !important; }
+  .intro-playing .hero,
+  .intro-playing .nav,
+  .intro-playing .hero-media video,
   .hero-meta,
   .hero-title .row > span,
   .hero-actions,
@@ -2650,6 +2654,32 @@ button.info-v:hover { color: var(--accent); }
   .hero-lines span::after,
   .hero-film-grain { animation: none; }
   .hero-lines span::after { opacity: 0; }
+  [data-motion],
+  [data-motion].motion-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .about-title-motion {
+    --about-line-1: 100% !important;
+    --about-line-2: 100% !important;
+  }
+  .about-title-highlight,
+  .about-copy > p,
+  .about-actions,
+  .contact-title-line,
+  .contact-sub,
+  .contact-links,
+  .works-gallery .work-card[data-motion="project"] .work-visual,
+  .works-gallery .work-card[data-motion="project"] .work-visual .art-img,
+  .works-gallery .work-caption {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+  .typing-dots i,
+  .profile-bubble { animation: none; }
   .t-img img { transition: none; }
   .t-img:hover img { transform: none; }
 }

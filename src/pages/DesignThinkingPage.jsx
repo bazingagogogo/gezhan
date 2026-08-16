@@ -3,8 +3,8 @@ import './DesignThinkingPage.css'
 
 const thinkingItems = [
   {
-    question: '你通常如何开始一个设计问题？',
-    answer: '我会先确认问题发生的场景、影响的人，以及团队真正需要达成的结果。这里将补充从需求澄清到设计假设形成的完整思考过程。',
+    question: '智能充电桩重构：我梳理出的 3 个底层逻辑',
+    type: 'article',
   },
   {
     question: '面对复杂需求，如何确定优先级？',
@@ -49,9 +49,60 @@ function ThinkingAccordion({ item, index, open, onToggle }) {
       </h2>
       <div id={panelId} className="thinking-answer-grid" role="region" aria-labelledby={buttonId} aria-hidden={!open}>
         <div>
-          <p>{item.answer}</p>
+          {item.type === 'article' ? <ChargingArticle /> : <p>{item.answer}</p>}
         </div>
       </div>
+    </article>
+  )
+}
+
+function ChargingArticle() {
+  return (
+    <article className="thinking-article">
+      <img className="thinking-article-cover" src="/images/thinking/charging/article-cover.png" alt="智能充电桩设计思考文章标题与关键词" />
+      <div className="thinking-article-lead">
+        <span>案例学习沉淀</span>
+        <p>前段时间参加了一场关于“智能充电桩出海体验设计”的分享会。原本以为充电桩只是“插枪、扫码、等待”的简单流程，深入了解后才发现，它背后牵涉制造商、运营商与车主的多方关系，也是物理空间与数字界面高度融合的典型场景。</p>
+        <p>我重新整理了这次分享的关键内容，并从体验设计角度提炼出关于软硬一体设计的底层逻辑与延伸思考。</p>
+      </div>
+
+      <section>
+        <span className="thinking-article-section-no">01</span>
+        <h3>先看懂生态，再谈用户体验</h3>
+        <p>这类 B2B2C 硬件产品不能只站在终端车主的角度思考，也要站在采购方，也就是运营商的角度计算商业价值。运营商关心价格、性能、品牌信誉和运维成本，而体验设计看似是软指标，实际直接关联着降本增效。</p>
+        <p>如果界面不直观、鉴权步骤卡顿，用户会频繁寻求客服帮助，充电枪也可能因操作迟疑而被长期占用，最终降低场站周转率并推高运维成本。</p>
+        <figure>
+          <img src="/images/thinking/charging/pain-points.png" alt="充电桩硬件设计的三类割裂痛点：软硬件割裂、信息盲盒和交互跑马拉松" />
+          <figcaption>硬件体验中的三类典型割裂：软硬脱节、状态隐蔽与跨触点操作。</figcaption>
+        </figure>
+      </section>
+
+      <section>
+        <span className="thinking-article-section-no">02</span>
+        <h3>让软件和硬件“长在一起”</h3>
+        <p>重构方案的核心可以概括为三句话：软硬融合、一目了然、极简充电。它没有把 12.1 英寸触摸屏当作孤立的显示框，而是把数字界面作为硬件物理特征的延伸。</p>
+        <div className="thinking-article-points">
+          <div><strong>直觉映射</strong><p>星环灯状态与屏幕色彩和动态反馈保持一致；物理按键在界面中按真实位置映射；左右界面直接对应实体双枪位置。</p></div>
+          <div><strong>户外导视</strong><p>充电桩更多时候是信息看板。字体、字号、对比度、可视高度与昼夜模式，都要按照远距离和户外环境重新定义。</p></div>
+          <div><strong>极简交互</strong><p>最好的交互不是让用户反复点击屏幕，而是用灯语、动态指南和自动识别，引导人在物理世界中完成操作。</p></div>
+        </div>
+        <blockquote>理想的充电体验，不应该是用户与屏幕的频繁对话，而是用户与充电桩的默契配合。</blockquote>
+      </section>
+
+      <section>
+        <span className="thinking-article-section-no">03</span>
+        <h3>我的延伸思考与方法论沉淀</h3>
+        <p>这次学习带来的最大提醒是：做界面设计时，思维很容易被框在屏幕这块“玻璃”里。面对智能硬件与复杂物理空间，应当把交互媒介、场景约束和商业目标放在一起判断。</p>
+        <figure>
+          <img src="/images/thinking/charging/method-notes.png" alt="关于隐形交互、场景约束和商业体验的三条方法论" />
+          <figcaption>三条可迁移的方法：减少不必要点击、先确认物理约束、把体验转化为可衡量的商业语言。</figcaption>
+        </figure>
+      </section>
+
+      <section className="thinking-article-summary">
+        <span>总结</span>
+        <p>好的设计不一定需要炫技。尤其面对智能硬件和复杂物理场景时，应当把复杂留给自己，把自然留给用户。这次分享让我重新审视了软硬协同的边界，也形成了一套可以继续用于复合场景设计的观察框架。</p>
+      </section>
     </article>
   )
 }
@@ -109,7 +160,7 @@ export default function DesignThinkingPage() {
               item={item}
               index={index}
               open={openIndex === index}
-              onToggle={() => setOpenIndex((current) => current === index ? -1 : index)}
+              onToggle={() => setOpenIndex(index)}
             />
           ))}
         </div>

@@ -513,7 +513,7 @@ function About() {
     chatRef.current.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' })
   }, [visibleMessages])
   const exps = [
-    { period: '2024.02 — 至今', co: '软通动力', role: 'UI 设计师', desc: '企业级 SaaS 产品设计（邮件 / 笔记 / 搜索 / 云知识），主导 AI 智能笔记的交互与视觉落地。' },
+    { period: '2024.02 — 2026.04', co: '软通动力', role: 'UI 设计师', desc: '企业级 SaaS 产品设计（邮件 / 笔记 / 搜索 / 云知识），主导 AI 智能笔记的交互与视觉落地。' },
     { period: '2023.09 — 2023.12', co: '深圳壹木航科技', role: '产品助理实习', desc: '参与产品需求梳理与交互支持，协助从 0 到 1 搭建功能流程。' },
     { period: '2022.09 — 2022.11', co: 'Flat Incubator', role: '设计助理实习', desc: '负责视觉与品牌设计支持，输出运营视觉与素材规范。', dim: true },
   ]
@@ -926,23 +926,23 @@ function MoreWorks() {
 /* ---------- 个人优势（2+3 卡片 + 品牌插图） ---------- */
 const STRENGTHS = [
   {
-    no: '01', tag: 'CORE', h: '全链路设计', img: '/images/strengths/fullstack.png',
+    no: '01', tag: 'PRODUCT DESIGN', h: '全链路设计', img: '/images/strengths/fullstack.png',
     chips: ['交互拆解到视觉落地', '全链路决策', '体验一致性与落地效率'],
   },
   {
-    no: '02', tag: 'CORE', h: '视觉语言搭建', img: '/images/strengths/visual.png',
+    no: '02', tag: 'VISUAL DESIGN', h: '视觉语言搭建', img: '/images/strengths/visual.png',
     chips: ['品牌视觉语言构建与落地', '平面 / 3D / 动效', '视觉规范与延展'],
   },
   {
-    no: '03', tag: 'SYSTEM', h: 'AI 设计提效', img: '/images/strengths/ai.png',
+    no: '03', tag: 'AI WORKFLOW', h: 'AI 设计提效', img: '/images/strengths/ai.png',
     chips: ['AI 辅助竞品分析与洞察', '初稿原型快速验证', '测试归纳总结'],
   },
   {
-    no: '04', tag: 'SYSTEM', h: '用户研究', img: '/images/strengths/research.png',
+    no: '04', tag: 'USER RESEARCH', h: '用户研究', img: '/images/strengths/research.png',
     chips: ['用户画像与旅程地图绘制', '访谈与可用性测试', '洞察驱动设计机会点'],
   },
   {
-    no: '05', tag: 'SYSTEM', h: '跨职能协作', img: '/images/strengths/collab.png',
+    no: '05', tag: 'COLLABORATION', h: '跨职能协作', img: '/images/strengths/collab.png',
     chips: ['高效沟通推进产品落地', 'B/C 端双端组件库', '产品数据验证分析'],
   },
 ]

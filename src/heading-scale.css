@@ -22,3 +22,27 @@
     font-size: clamp(28px, 8vw, 33px);
   }
 }
+
+/* Keep the Hero compact; give every following heading 2px more air. */
+.section-title {
+  letter-spacing: calc(-.035em + 2px);
+  line-height: calc(1.08em + 2px);
+}
+
+.about-copy h2 {
+  letter-spacing: calc(-.04em + 2px);
+  line-height: calc(1em + 8px);
+}
+
+.contact-title {
+  letter-spacing: calc(-.03em + 2px);
+  line-height: calc(.95em + 2px);
+}
+
+#about .experience-card h3,
+#works h3,
+#more h3,
+#strengths h4 {
+  letter-spacing: 2px;
+  line-height: calc(1.2em + 2px);
+}

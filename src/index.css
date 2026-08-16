@@ -2187,6 +2187,18 @@ button.info-v:hover { color: var(--accent); }
   background: radial-gradient(50% 50% at 50% 100%, rgba(200,240,74,0.10), transparent 70%);
   pointer-events: none;
 }
+.contact-side-rays {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  width: min(68vw, 1040px);
+  height: min(78vh, 760px);
+  opacity: .78;
+  -webkit-mask-image: linear-gradient(135deg, transparent 4%, #000 48%);
+  mask-image: linear-gradient(135deg, transparent 4%, #000 48%);
+}
+.contact > .wrap { position: relative; z-index: 1; }
 .contact-title {
   --contact-fill: 0%;
   font-family: var(--font-en);
@@ -2661,6 +2673,7 @@ button.info-v:hover { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .intro-overlay { display: none !important; }
+  .contact-side-rays { display: none; }
   .intro-playing .hero,
   .intro-playing .nav,
   .intro-playing .hero-media video,

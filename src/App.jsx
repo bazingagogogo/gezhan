@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import OptionWheel from './components/OptionWheel.jsx'
 import ZoomableBoard from './components/ZoomableBoard.jsx'
+import SideRays from './components/SideRays.jsx'
 
 const HERO_CORE_LEAD = '探索未来数字产品的'
 const HERO_CORE_EMPHASIS = '体验边界'
@@ -1020,6 +1021,7 @@ function Contact() {
   }, [])
   return (
     <section className="contact" id="contact">
+      <SideRays className="contact-side-rays" />
       <div className="wrap">
         <div data-motion="contact">
           <h2 ref={titleRef} className="contact-title" aria-label="LET'S 聊聊">

@@ -341,6 +341,9 @@ function About() {
   const wheelLockRef = useRef(false)
   const wheelDeltaRef = useRef(0)
   const releaseTimerRef = useRef(null)
+  const panelAlignedRef = useRef(false)
+  const panelAligningRef = useRef(false)
+  const alignTimerRef = useRef(null)
   const messageCountRef = useRef(visibleMessages)
   const titleRef = useRef(null)
   const sectionRef = useRef(null)
@@ -451,12 +454,31 @@ function About() {
   useEffect(() => {
     const onWheel = (event) => {
       if (window.matchMedia('(max-width: 700px)').matches) return
+      if (panelAligningRef.current) {
+        event.preventDefault()
+        return
+      }
       const panel = document.querySelector('.profile-interface')
       if (!panel) return
       const rect = panel.getBoundingClientRect()
       const nav = document.querySelector('.nav-pill')
-      const targetTop = (nav?.getBoundingClientRect().bottom || 0) + 80
-      const inHoldZone = rect.top <= targetTop + 120 && rect.bottom >= Math.min(window.innerHeight - 32, targetTop + 260)
+      const navBottom = nav?.getBoundingClientRect().bottom || 0
+      const centeredTop = Math.max(navBottom + 32, (window.innerHeight - rect.height) / 2)
+      const approachingHoldZone = rect.top <= window.innerHeight * .72 && rect.bottom >= window.innerHeight * .38
+      if (event.deltaY > 0 && approachingHoldZone && !panelAlignedRef.current && Math.abs(rect.top - centeredTop) > 10) {
+        event.preventDefault()
+        panelAlignedRef.current = true
+        panelAligningRef.current = true
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+        window.scrollBy({ top: rect.top - centeredTop, behavior })
+        window.clearTimeout(alignTimerRef.current)
+        alignTimerRef.current = window.setTimeout(() => {
+          panelAligningRef.current = false
+          wheelDeltaRef.current = 0
+        }, behavior === 'smooth' ? 520 : 0)
+        return
+      }
+      const inHoldZone = Math.abs(rect.top - centeredTop) <= 72
       if (!inHoldZone) return
 
       const direction = Math.sign(event.deltaY)
@@ -482,6 +504,7 @@ function About() {
     return () => {
       window.removeEventListener('wheel', onWheel)
       window.clearTimeout(releaseTimerRef.current)
+      window.clearTimeout(alignTimerRef.current)
     }
   }, [visibleMessages, displayMessages.length])
   useEffect(() => {

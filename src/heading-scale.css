@@ -1,0 +1,24 @@
+/* Hero : module = 1.6 : 1 on desktop, 1.35 : 1 on mobile. */
+@media (min-width: 1200px) {
+  .section-title,
+  .about-copy h2,
+  .contact-title {
+    font-size: clamp(28px, 3.5vw, 66px);
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1199px) {
+  .section-title,
+  .about-copy h2,
+  .contact-title {
+    font-size: clamp(25px, 3.56vw, 43px);
+  }
+}
+
+@media (max-width: 700px) {
+  .section-title,
+  .about-copy h2,
+  .contact-title {
+    font-size: clamp(28px, 8vw, 33px);
+  }
+}

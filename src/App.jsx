@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import OptionWheel from './components/OptionWheel.jsx'
 import ZoomableBoard from './components/ZoomableBoard.jsx'
 import SideRays from './components/SideRays.jsx'
+import DesignThinkingPage from './pages/DesignThinkingPage.jsx'
 
 import FoldText from './components/FoldText.jsx'
 const HERO_CORE_LEAD = '探索未来数字产品的'
@@ -224,7 +225,7 @@ function Nav() {
         <a href="/#top" className="nav-logo" aria-label="回到顶部">
           <img src="/images/logo.png" alt="许咏芳 Portfolio Logo" />
         </a>
-        <a href="/#strengths">设计思考</a>
+        <a href="/thinking">设计思考</a>
         <a href="/xuyongfang-portfolio.pdf" download="许咏芳-UIUX设计师-作品集.pdf">简历下载</a>
       </div>
       <div className="nav-mobile">
@@ -248,7 +249,7 @@ function Nav() {
       <div id="mobile-navigation-menu" className="nav-mobile-panel" aria-hidden={!menuOpen}>
         <a ref={firstMenuItemRef} href="/#about" onClick={() => closeMenu()}>个人介绍</a>
         <a href="/#works" onClick={() => closeMenu()}>项目作品</a>
-        <a href="/#strengths" onClick={() => closeMenu()}>设计思考</a>
+        <a href="/thinking" onClick={() => closeMenu()}>设计思考</a>
         <a href="/xuyongfang-portfolio.pdf" download="许咏芳-UIUX设计师-作品集.pdf" onClick={() => closeMenu()}>简历下载</a>
       </div>
     </nav>
@@ -1045,6 +1046,14 @@ export default function App() {
   }
   if (pathname === '/projects/nianyu') {
     return <NianyuProject />
+  }
+  if (pathname === '/thinking') {
+    return (
+      <>
+        <Nav />
+        <DesignThinkingPage />
+      </>
+    )
   }
   return (
     <>

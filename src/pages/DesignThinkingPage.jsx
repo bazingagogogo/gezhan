@@ -69,7 +69,6 @@ function ChargingArticle() {
             <span>隐形交互 · Zero-UI</span>
             <span>B2B2C 商业视角</span>
           </div>
-          <span className="thinking-article-type">设计案例拆解 · 方法论总结</span>
         </div>
       </header>
       <div className="thinking-article-lead">
@@ -202,7 +201,7 @@ export default function DesignThinkingPage() {
         <aside className="thinking-aside" data-thinking-reveal>
           <div className="thinking-aside-copy">
             <span className="thinking-aside-label">ABOUT THIS SPACE</span>
-            <p>这里会持续收录我的设计判断、工作方法和项目复盘。具体内容正在整理中。</p>
+            <p>这里会持续收录我的设计判断、工作方法和项目复盘。</p>
             <a className="thinking-aside-cta" href="/#works">
               <span aria-hidden="true">↗</span>
               <span>去看看项目</span>

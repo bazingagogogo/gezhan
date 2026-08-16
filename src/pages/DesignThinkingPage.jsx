@@ -93,10 +93,27 @@ function ChargingArticle() {
         <span className="thinking-article-section-no">02</span>
         <h3>让软件和硬件“长在一起”</h3>
         <p>重构方案的核心可以概括为三句话：软硬融合、一目了然、极简充电。它没有把 12.1 英寸触摸屏当作孤立的显示框，而是把数字界面作为硬件物理特征的延伸。</p>
-        <div className="thinking-article-points">
-          <div><strong>物理与数字的直觉映射</strong><p>桩体星环灯的空闲、充电与故障状态，和屏幕背景色、动态粒子保持一致；屏幕按键与实体按键的位置对应；左右布局直接映射左右物理枪位。</p></div>
-          <div><strong>把屏幕当成户外导视系统</strong><p>使用适合交通导视的 Frutiger 字体，依据 PAS、DIN 标准控制核心可视区和操作高度，并通过高对比度与光线传感器适应昼夜和强光。</p></div>
-          <div><strong>不需要触碰屏幕的交互</strong><p>最好的交互，是用动态指南引导人在物理世界里快速操作，而不是让用户在屏幕上反复点击。</p></div>
+        <div className="thinking-solution-block">
+          <h4>① 物理与数字的“直觉映射”</h4>
+          <p>方案没有把那块 12.1 寸的触摸屏当作孤立的显示框，而是将其作为硬件物理特征的延伸：</p>
+          <ul>
+            <li><strong>灯语联动：</strong>桩体上的星环灯状态（空闲/充电/故障）与屏幕背景色、动态粒子保持高度一致。</li>
+            <li><strong>物理按键按需绑定：</strong>欧洲极寒天气下用户戴着厚手套很难精准触控，因此保留了 4 个物理按键。屏幕 UI 直接把按键形状和位置做出了物理位置的对应，形成无需思考的“直觉映射”。</li>
+            <li><strong>左右双枪镜像：</strong>UI 界面的左右布局直接对应实体的左右物理枪位，充哪边一目了然。</li>
+          </ul>
+        </div>
+        <div className="thinking-solution-block">
+          <h4>② 把屏幕当成“户外导视系统”来设计</h4>
+          <p>充电桩在户外绝大多数时间是信息看板，而不是频繁点击的操作屏。因此，设计团队放弃了传统移动端 App 那套精致纤细的 UI 规范，转向了户外导视（Wayfinding System）逻辑：</p>
+          <dl className="thinking-wayfinding-table">
+            <div><dt>字体选型（Frutiger）</dt><dd>使用了欧洲交通导视系统常用的 Frutiger 字体。作为等宽字体，数字上下滚动时平稳不跳动，驾驶者看一眼就觉得亲切易读。</dd></div>
+            <div><dt>人体工学规范</dt><dd>遵守英国 PAS 和德国 DIN 标准，核心可视区控制在 1300mm 以下，关键操作集中在 1200mm 以下，对不同身高及轮椅人群非常友好。</dd></div>
+            <div><dt>极限抗反光与昼夜</dt><dd>界面最小文字高度 4.07mm（远超德国 DIN1450 标准的 3.2mm），黑白高对比度，配合光线传感器自动切换昼夜模式。</dd></div>
+          </dl>
+        </div>
+        <div className="thinking-solution-block">
+          <h4>③ 极简交互：“不需要触碰屏幕的交互”</h4>
+          <p>分享中提到了阿姆斯特丹史基普机场自动托运系统的启发：最好的交互，是用动态指南引导人在物理世界里快速操作，而不是让他在屏幕上点来点去。</p>
         </div>
         <blockquote>理想的充电体验，不应该是用户与屏幕的频繁对话，而是用户与充电桩的默契配合。</blockquote>
       </section>
@@ -130,7 +147,7 @@ export default function DesignThinkingPage() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!root || reduceMotion) {
       root?.classList.add('is-ready')
-      root?.querySelectorAll('[data-thinking-reveal]').forEach((node) => node.classList.add('is-visible'))
+      root?.querySelectorAll('[data-thinking-reveal]').forEach((node) => { node.dataset.visible = 'true' })
       return undefined
     }
 
@@ -138,7 +155,7 @@ export default function DesignThinkingPage() {
     const observer = new IntersectionObserver(
       (entries) => entries.forEach((entry) => {
         if (!entry.isIntersecting) return
-        entry.target.classList.add('is-visible')
+        entry.target.dataset.visible = 'true'
         observer.unobserve(entry.target)
       }),
       { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
@@ -163,7 +180,7 @@ export default function DesignThinkingPage() {
           <span>思考与方法</span>
         </div>
         <h1 id="thinking-title" className="thinking-title">
-          <span className="thinking-title-muted">设计不只发生在画布上。</span>
+          <span className="thinking-title-muted">设计不只发生在画布上，</span>
           <span>这里记录判断、取舍与方法。</span>
         </h1>
         <p className="thinking-intro">从问题定义到方案落地，把设计过程中不容易被看见的思考整理出来。这里持续记录我对产品、体验与技术的观察，并将项目中的判断与取舍沉淀为可复用的方法。</p>
@@ -201,7 +218,6 @@ export default function DesignThinkingPage() {
 
       <footer className="thinking-footer">
         <span>© 2026 XU YONGFANG</span>
-        <a href="/#top">返回首页 ↗</a>
       </footer>
     </main>
   )

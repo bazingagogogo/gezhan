@@ -66,6 +66,10 @@
 .thinking-title > span:nth-child(2) { transition-delay: 90ms; }
 .thinking-title-muted { color: var(--thinking-muted); }
 
+@media (min-width: 1100px) {
+  .thinking-title > span:last-child { white-space: nowrap; }
+}
+
 .thinking-intro {
   max-width: 650px;
   margin-top: clamp(26px, 3vw, 44px);
@@ -105,7 +109,7 @@
   transition: opacity 620ms var(--item-delay) var(--ease-out-expo), transform 620ms var(--item-delay) var(--ease-out-expo), background-color 220ms ease;
 }
 
-.thinking-item.is-visible { opacity: 1; transform: translateY(0); }
+.thinking-item[data-visible='true'] { opacity: 1; transform: translateY(0); }
 .thinking-item.is-open { background: rgba(255, 255, 255, .94); }
 .thinking-item h2 { font: inherit; }
 
@@ -137,7 +141,7 @@
   transition: grid-template-rows 520ms var(--ease-out-expo), visibility 520ms;
 }
 
-.thinking-answer-grid > div { min-height: 0; overflow: hidden; }
+.thinking-answer-grid > div { min-height: 0; overflow: hidden; opacity: 0; transform: translateY(-8px); transition: opacity 360ms ease, transform 520ms var(--ease-out-expo); }
 .thinking-answer-grid > div > p {
   max-width: 760px;
   margin: 0 26px;
@@ -152,6 +156,7 @@
 }
 
 .thinking-item.is-open .thinking-answer-grid { grid-template-rows: 1fr; visibility: visible; }
+.thinking-item.is-open .thinking-answer-grid > div { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
 .thinking-item.is-open .thinking-answer-grid > div > p { padding-top: 22px; opacity: 1; transform: translateY(0); transition-delay: 90ms; }
 
 .thinking-article {
@@ -162,15 +167,15 @@
 }
 
 .thinking-article img { display: block; width: 100%; height: auto; }
-.thinking-article-header { padding: clamp(22px, 3vw, 36px); border-radius: 14px; color: #f2f2f0; background: #18243a; }
-.thinking-article-category { display: inline-flex; padding: 7px 11px; border-radius: 999px; color: #42c5ff; background: rgba(66,197,255,.12); font: 600 10px/1 var(--font-en); letter-spacing: .08em; }
-.thinking-article .thinking-article-header h3 { margin: 18px 0 0; color: #fff; font-size: clamp(24px, 2.6vw, 38px); line-height: 1.28; letter-spacing: .02em; }
+.thinking-article-header { padding: 2px 0 28px; border-bottom: 1px solid rgba(17,18,21,.12); color: var(--thinking-ink); }
+.thinking-article-category { display: inline-flex; padding: 7px 11px; border-radius: 999px; color: #087bc2; background: rgba(25,141,255,.1); font: 600 10px/1 var(--font-en); letter-spacing: .08em; }
+.thinking-article .thinking-article-header h3 { margin: 18px 0 0; color: var(--thinking-ink); font-size: clamp(24px, 2.6vw, 38px); line-height: 1.28; letter-spacing: .02em; }
 .thinking-article-title-break { display: none; }
-.thinking-article-subtitle { margin-top: 10px !important; color: rgba(242,242,240,.52); font-size: 14px !important; line-height: 1.65 !important; }
-.thinking-article-meta { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); }
+.thinking-article-subtitle { margin-top: 10px !important; color: rgba(17,18,21,.5); font-size: 14px !important; line-height: 1.65 !important; }
+.thinking-article-meta { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(17,18,21,.1); }
 .thinking-keywords { display: flex; flex-wrap: wrap; gap: 8px; }
-.thinking-keywords span { display: inline-flex; align-items: center; min-height: 30px; padding: 6px 12px; border: 1px solid rgba(255,255,255,.08); border-radius: 999px; color: rgba(242,242,240,.76); background: rgba(255,255,255,.09); font-size: 12px; line-height: 1; white-space: nowrap; }
-.thinking-article-type { flex: 0 0 auto; color: rgba(242,242,240,.46); font-size: 11px; line-height: 1.5; white-space: nowrap; }
+.thinking-keywords span { display: inline-flex; align-items: center; min-height: 30px; padding: 6px 12px; border: 1px solid rgba(17,18,21,.06); border-radius: 999px; color: rgba(17,18,21,.66); background: rgba(17,18,21,.07); font-size: 12px; line-height: 1; white-space: nowrap; }
+.thinking-article-type { flex: 0 0 auto; color: rgba(17,18,21,.42); font-size: 11px; line-height: 1.5; white-space: nowrap; }
 .thinking-article-lead { padding: 28px 2px 10px; }
 .thinking-article-lead > span { display: inline-block; margin-bottom: 12px; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .12em; }
 .thinking-article p { margin: 0; font-size: 15px; line-height: 1.9; }
@@ -181,10 +186,16 @@
 .thinking-article figure { margin-top: 24px; }
 .thinking-article figure img { border: 1px solid rgba(17,18,21,.08); border-radius: 12px; background: #fff; }
 .thinking-article figcaption { margin-top: 10px; color: rgba(17,18,21,.44); font-size: 12px; line-height: 1.6; }
-.thinking-article-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
-.thinking-article-points > div { padding: 20px; border-radius: 12px; background: rgba(17,18,21,.045); }
-.thinking-article-points strong { display: block; margin-bottom: 8px; color: var(--thinking-ink); font-size: 15px; }
-.thinking-article-points p { font-size: 13px; line-height: 1.75; }
+.thinking-solution-block { margin-top: 30px; }
+.thinking-solution-block h4 { margin-bottom: 12px; color: #f26322; font-size: 18px; line-height: 1.5; }
+.thinking-solution-block ul { display: grid; gap: 8px; margin: 12px 0 0 20px; font-size: 14px; line-height: 1.85; }
+.thinking-wayfinding-table { margin-top: 16px; border: 1px solid rgba(17,18,21,.13); }
+.thinking-wayfinding-table > div { display: grid; grid-template-columns: minmax(150px, .7fr) 2fr; }
+.thinking-wayfinding-table > div + div { border-top: 1px solid rgba(17,18,21,.13); }
+.thinking-wayfinding-table dt,
+.thinking-wayfinding-table dd { padding: 14px 16px; font-size: 13px; line-height: 1.75; }
+.thinking-wayfinding-table dt { color: var(--thinking-ink); font-weight: 700; }
+.thinking-wayfinding-table dd { border-left: 1px solid rgba(17,18,21,.13); }
 .thinking-article blockquote { max-width: 92%; margin-top: 18px; padding: 14px 16px; border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; color: var(--thinking-ink); background: rgba(25,141,255,.07); font-size: 15px; font-weight: 500; line-height: 1.9; }
 .thinking-article-summary { margin-bottom: 4px; padding: 0 !important; color: rgba(17,18,21,.72); }
 .thinking-article-summary > span { display: block; margin-bottom: 10px; color: var(--thinking-ink); font-weight: 700; }
@@ -200,7 +211,7 @@
   transform: translateY(30px) scale(.985);
   transition: opacity 680ms var(--ease-out-expo), transform 680ms var(--ease-out-expo);
 }
-.thinking-aside.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+.thinking-aside[data-visible='true'] { opacity: 1; transform: translateY(0) scale(1); }
 .thinking-aside-copy { padding: 18px 16px 26px; }
 .thinking-aside-label { font: 600 11px/1 var(--font-en); letter-spacing: .16em; color: rgba(17,18,21,.42); }
 .thinking-aside-copy p { margin-top: 18px; font-size: 17px; line-height: 1.65; }
@@ -217,8 +228,6 @@
 .thinking-orbit i:nth-child(3) { right: 12px; bottom: 62px; width: 22px; }
 
 .thinking-footer { display: flex; justify-content: space-between; margin-top: clamp(100px, 13vw, 190px); padding-top: 22px; border-top: 1px solid rgba(17,18,21,.16); font: 600 11px/1 var(--font-en); letter-spacing: .08em; }
-.thinking-footer a { transition: opacity 200ms ease; }
-.thinking-footer a:hover { opacity: .55; }
 
 @media (max-width: 900px) {
   .thinking-page { padding-top: 122px; }
@@ -239,7 +248,7 @@
   .thinking-item-question { font-size: 17px; line-height: 1.45; }
   .thinking-answer-grid > div > p { margin: 0 18px; padding-bottom: 23px; font-size: 14px; line-height: 1.75; }
   .thinking-article { margin: 0 18px 22px; padding-top: 18px; }
-  .thinking-article-header { padding: 20px 18px; border-radius: 11px; }
+  .thinking-article-header { padding: 0 0 22px; }
   .thinking-article-category { padding: 6px 9px; font-size: 8px; }
   .thinking-article .thinking-article-header h3 { margin-top: 15px; font-size: 23px; line-height: 1.35; }
   .thinking-article-title-break { display: block; }
@@ -252,7 +261,12 @@
   .thinking-article p { font-size: 14px; line-height: 1.8; }
   .thinking-article section { margin-top: 32px; }
   .thinking-article h3 { font-size: 21px; }
-  .thinking-article-points { grid-template-columns: 1fr; }
+  .thinking-solution-block h4 { font-size: 16px; }
+  .thinking-solution-block ul { margin-left: 18px; font-size: 13px; }
+  .thinking-wayfinding-table > div { grid-template-columns: 1fr; }
+  .thinking-wayfinding-table dt,
+  .thinking-wayfinding-table dd { padding: 12px; font-size: 12px; }
+  .thinking-wayfinding-table dd { padding-top: 0; border-left: 0; }
   .thinking-article blockquote { max-width: 100%; padding: 12px 14px; font-size: 14px; }
   .thinking-aside { display: block; padding: 10px; border-radius: 16px; }
   .thinking-aside-copy { padding: 16px 12px 24px; }

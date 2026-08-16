@@ -343,6 +343,7 @@ function About() {
   const releaseTimerRef = useRef(null)
   const messageCountRef = useRef(visibleMessages)
   const titleRef = useRef(null)
+  const sectionRef = useRef(null)
   const profileMessages = [
     { type: 'system', text: '你好，我是许咏芳的个人介绍助手。' },
     { type: 'answer', text: '这里不重复简历，聊聊我怎么思考、怎么合作，以及工作之外的我。' },
@@ -410,6 +411,42 @@ function About() {
       if (frame) window.cancelAnimationFrame(frame)
     }
   }, [])
+  useEffect(() => {
+    const section = sectionRef.current
+    const hero = document.querySelector('.hero')
+    if (!section || !hero) return undefined
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (reduced.matches) {
+      section.style.setProperty('--section-bridge', '1')
+      hero.style.setProperty('--hero-exit', '1')
+      return undefined
+    }
+    let frame = 0
+    let maxProgress = 0
+    const update = () => {
+      frame = 0
+      const top = section.getBoundingClientRect().top
+      const start = window.innerHeight * 1.04
+      const distance = Math.max(window.innerHeight * .42, 280)
+      const progress = Math.max(0, Math.min((start - top) / distance, 1))
+      maxProgress = Math.max(maxProgress, progress)
+      section.style.setProperty('--section-bridge', maxProgress.toFixed(4))
+      hero.style.setProperty('--hero-exit', maxProgress.toFixed(4))
+      if (maxProgress >= 1) window.removeEventListener('scroll', schedule)
+    }
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+      if (frame) window.cancelAnimationFrame(frame)
+      hero.style.removeProperty('--hero-exit')
+    }
+  }, [])
   useEffect(() => { messageCountRef.current = visibleMessages }, [visibleMessages])
   useEffect(() => {
     const onWheel = (event) => {
@@ -457,7 +494,7 @@ function About() {
     { period: '2022.09 — 2022.11', co: 'Flat Incubator', role: '设计助理实习', desc: '负责视觉与品牌设计支持，输出运营视觉与素材规范。', dim: true },
   ]
   return (
-    <section className="section about-cinematic" id="about">
+    <section ref={sectionRef} className="section about-cinematic" id="about">
       <div className="about-aurora" aria-hidden="true" />
       <div className="wrap about-shell">
         <div className="about-stage">
@@ -927,12 +964,46 @@ function Strengths() {
 
 /* ---------- 底部联系 ---------- */
 function Contact() {
+  const titleRef = useRef(null)
+  useEffect(() => {
+    const title = titleRef.current
+    if (!title) return undefined
+    const reveal = () => title.style.setProperty('--contact-fill', '100%')
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      reveal()
+      return undefined
+    }
+    let frame = 0
+    let maxProgress = 0
+    const update = () => {
+      frame = 0
+      const rect = title.getBoundingClientRect()
+      const progress = Math.max(0, Math.min((window.innerHeight * .88 - rect.top) / (window.innerHeight * .44), 1))
+      maxProgress = Math.max(maxProgress, progress)
+      title.style.setProperty('--contact-fill', `${maxProgress * 100}%`)
+      if (maxProgress >= 1) window.removeEventListener('scroll', schedule)
+    }
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
+  }, [])
   return (
     <section className="contact" id="contact">
       <div className="wrap">
         <div data-motion="contact">
-          <h2 className="contact-title">
-            <span className="contact-title-line">LET'S <span className="cn">聊聊</span></span>
+          <h2 ref={titleRef} className="contact-title" aria-label="LET'S 聊聊">
+            <span className="contact-title-line">
+              <span className="contact-title-base">LET'S <span className="cn">聊聊</span></span>
+              <span className="contact-title-highlight" aria-hidden="true">LET'S <span className="cn">聊聊</span></span>
+            </span>
           </h2>
           <p className="contact-sub">
             正在寻找新的机会与合作 —— 无论是产品设计的全职岗位，还是有趣的项目委托，

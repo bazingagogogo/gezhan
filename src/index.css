@@ -268,6 +268,8 @@ html.intro-playing body { overflow: hidden; }
   width: 1px;
   background: rgba(255, 255, 255, 0.09);
   overflow: hidden;
+  transform: translateY(calc(var(--hero-exit, 0) * -28px)) scale(calc(1 - var(--hero-exit, 0) * .018));
+  transform-origin: center bottom;
 }
 .hero-lines span::after {
   content: '';
@@ -816,6 +818,7 @@ button.info-v:hover { color: var(--accent); }
 
 /* ============ 关于我 · Cinematic glass ============ */
 .about-cinematic {
+  --section-bridge: 0;
   min-height: 100vh;
   padding-top: clamp(96px, 13vh, 168px) !important;
   padding-bottom: clamp(96px, 12vh, 150px);
@@ -824,6 +827,14 @@ button.info-v:hover { color: var(--accent); }
   background:
     radial-gradient(80% 70% at 78% 38%, rgba(30, 72, 100, .16), transparent 66%),
     #08090a;
+}
+.about-cinematic .about-shell {
+  transform: translateY(calc((1 - var(--section-bridge)) * 84px));
+  opacity: calc(.35 + var(--section-bridge) * .65);
+}
+.about-cinematic .about-aurora {
+  transform: translateY(calc((1 - var(--section-bridge)) * 44px));
+  opacity: calc(var(--section-bridge) * .2);
 }
 .about-cinematic::before,
 .about-cinematic::after {
@@ -2176,6 +2187,7 @@ button.info-v:hover { color: var(--accent); }
   pointer-events: none;
 }
 .contact-title {
+  --contact-fill: 0%;
   font-family: var(--font-en);
   font-size: clamp(64px, 11vw, 200px);
   font-weight: 600;
@@ -2185,9 +2197,17 @@ button.info-v:hover { color: var(--accent); }
   overflow: hidden;
 }
 .contact-title-line {
+  position: relative;
   display: block;
   transform: translateY(105%);
   transition: transform 720ms var(--ease-out-expo);
+}
+.contact-title-base { color: rgba(242, 242, 240, .22); }
+.contact-title-highlight {
+  position: absolute;
+  inset: 0;
+  color: var(--text);
+  clip-path: inset(0 calc(100% - var(--contact-fill)) 0 0);
 }
 .contact [data-motion="contact"] { opacity: 1; transform: none; transition: none; }
 .contact [data-motion="contact"].motion-in .contact-title-line { transform: none; }
@@ -2664,6 +2684,11 @@ button.info-v:hover { color: var(--accent); }
     --about-line-1: 100% !important;
     --about-line-2: 100% !important;
   }
+  .about-cinematic { --section-bridge: 1 !important; }
+  .hero { --hero-exit: 0 !important; }
+  .contact-title { --contact-fill: 100% !important; }
+  .about-cinematic .about-shell,
+  .about-cinematic .about-aurora { opacity: 1; transform: none; }
   .about-title-highlight,
   .about-copy > p,
   .about-actions,

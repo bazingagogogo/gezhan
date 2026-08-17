@@ -96,7 +96,11 @@
   margin-top: clamp(96px, 13vw, 210px);
 }
 
-.thinking-list { display: grid; gap: 12px; }
+.thinking-list {
+  display: grid;
+  gap: 12px;
+  overflow-anchor: none;
+}
 
 .thinking-item {
   overflow: hidden;
@@ -166,7 +170,15 @@
   color: rgba(17, 18, 21, .72);
 }
 
-.thinking-article img { display: block; width: 100%; height: auto; }
+.thinking-article img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
 .thinking-article-header { padding: 2px 0 0; color: var(--thinking-ink); }
 .thinking-article-category { display: inline-flex; padding: 7px 11px; border-radius: 999px; color: #fff; background: var(--accent); font: 600 10px/1 var(--font-en); letter-spacing: .08em; }
 .thinking-article .thinking-article-header h3 { margin: 18px 0 0; color: var(--thinking-ink); font-size: clamp(24px, 2.6vw, 38px); line-height: 1.28; letter-spacing: .02em; }
@@ -199,6 +211,90 @@
 .thinking-article-summary { margin-bottom: 4px; padding: 0 !important; color: rgba(17,18,21,.72); }
 .thinking-article-summary > span { display: block; margin-bottom: 10px; color: var(--thinking-ink); font-weight: 700; }
 .thinking-article-summary p { color: inherit; }
+
+.thinking-agent-stages { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 24px; }
+.thinking-agent-stages > div { min-height: 148px; padding: 22px; border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent); border-radius: 12px; background: color-mix(in srgb, var(--accent) 4.5%, transparent); }
+.thinking-agent-stages span { display: block; margin-bottom: 24px; color: var(--accent); font: 700 11px/1 var(--font-en); letter-spacing: .12em; }
+.thinking-agent-stages strong { display: block; margin-bottom: 8px; color: var(--thinking-ink); font-size: 16px; }
+.thinking-agent-stages p { font-size: 13px; line-height: 1.75; }
+.thinking-agent-loop { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 24px 0 20px; }
+.thinking-agent-loop span { display: inline-flex; align-items: center; min-height: 36px; padding: 8px 13px; border-radius: 999px; color: var(--thinking-ink); background: rgba(17,18,21,.055); font-size: 12px; font-weight: 700; }
+.thinking-agent-loop i { width: 18px; height: 1px; background: rgba(17,18,21,.24); }
+.thinking-agent-scenarios { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 24px; }
+.thinking-agent-scenarios > div { padding: 0 0 24px; color: inherit; background: transparent; }
+.thinking-agent-scenarios > div + div { padding-top: 24px; border-top: 1px solid rgba(17,18,21,.13); }
+.thinking-agent-scenarios strong { display: block; margin-bottom: 10px; color: var(--thinking-ink); font-size: 16px; }
+.thinking-agent-scenarios p { font-size: 13px; line-height: 1.8; }
+.thinking-agent-scenarios p + p { margin-top: 8px; }
+.thinking-agent-scenarios b { color: var(--thinking-ink); font-weight: 700; }
+.aigc-paradigm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 26px; }
+.aigc-paradigm-grid > div { min-height: 210px; padding: 22px; border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent); border-radius: 14px; background-color: #fafafa; background-image: radial-gradient(rgba(17,18,21,.13) 1px, transparent 1px); background-size: 18px 18px; }
+.aigc-paradigm-grid span { display: block; margin-bottom: 28px; color: var(--accent); font: 700 10px/1 var(--font-en); letter-spacing: .1em; }
+.aigc-paradigm-grid strong { display: block; margin-bottom: 6px; color: var(--thinking-ink); font-size: 20px; }
+.aigc-paradigm-grid b { display: block; margin-bottom: 14px; color: rgba(17,18,21,.5); font-size: 12px; }
+.aigc-paradigm-grid p { max-width: 34em; font-size: 13px; line-height: 1.75; }
+.aigc-evolution { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+.aigc-evolution-stage { display: grid; grid-template-rows: auto auto 190px 1fr; min-width: 0; padding: 20px 16px; border: 1px solid rgba(17,18,21,.08); border-radius: 14px; background-color: #fafafa; background-image: radial-gradient(rgba(17,18,21,.13) 1px, transparent 1px); background-size: 18px 18px; text-align: center; }
+.aigc-evolution-stage > span { color: rgba(17,18,21,.43); font: 700 10px/1 var(--font-en); letter-spacing: .1em; }
+.aigc-evolution-stage > strong { margin-top: 9px; color: var(--thinking-ink); font-size: 15px; }
+.aigc-orbit { position: relative; height: 190px; }
+.aigc-orbit i { position: absolute; display: grid; place-items: center; border-radius: 50%; font: 700 10px/1 var(--font-en); font-style: normal; }
+.aigc-orbit .is-human { width: 92px; height: 92px; left: calc(50% - 64px); top: 48px; color: var(--thinking-ink); background: #eceef1; }
+.aigc-orbit .is-machine { width: 62px; height: 62px; left: calc(50% + 12px); top: 64px; color: #fff; background: var(--accent); }
+.is-copilot .aigc-orbit .is-human { width: 78px; height: 78px; left: calc(50% - 70px); top: 56px; }
+.is-copilot .aigc-orbit .is-machine { width: 78px; height: 78px; left: calc(50% - 6px); top: 56px; }
+.is-agent .aigc-orbit > .is-machine { width: 142px; height: 142px; left: calc(50% - 71px); top: 24px; }
+.is-agent .aigc-orbit .is-human { width: 54px; height: 54px; left: 44px; top: 72px; color: var(--thinking-ink); background: #f1f2f4; }
+.aigc-evolution-stage > p { text-align: left; font-size: 12px; line-height: 1.7; }
+.aigc-evolution-stage > p b { color: var(--thinking-ink); }
+.aigc-principles { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 24px; }
+.aigc-principles > div { grid-column: span 2; min-height: 150px; padding: 18px; border-radius: 12px; background: color-mix(in srgb, var(--accent) 6%, #f7f7f7); }
+.aigc-principles > div:nth-child(4) { grid-column: 2 / span 2; }
+.aigc-principles span { display: block; margin-bottom: 22px; color: var(--accent); font: 700 10px/1 var(--font-en); }
+.aigc-principles strong { display: block; margin-bottom: 8px; color: var(--thinking-ink); font-size: 16px; }
+.aigc-principles p { font-size: 12px; line-height: 1.7; }
+.aigc-next-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
+.aigc-next-steps > div { padding: 20px; border-top: 2px solid var(--accent); background: rgba(17,18,21,.035); }
+.aigc-next-steps strong { display: block; min-height: 48px; margin-bottom: 10px; color: var(--thinking-ink); font-size: 15px; line-height: 1.5; }
+.aigc-next-steps p { font-size: 12px; line-height: 1.75; }
+.search-mode-compare { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 24px; }
+.search-mode-compare > div { padding: 22px; border: 1px solid color-mix(in srgb, var(--accent) 14%, transparent); border-radius: 14px; background: color-mix(in srgb, var(--accent) 4%, #fafafa); }
+.search-mode-compare span { display: block; margin-bottom: 28px; color: var(--accent); font: 700 10px/1 var(--font-en); letter-spacing: .1em; }
+.search-mode-compare strong { display: block; margin-bottom: 5px; color: var(--thinking-ink); font-size: 19px; }
+.search-mode-compare b { display: block; margin-bottom: 22px; color: rgba(17,18,21,.45); font: 600 11px/1.5 var(--font-en); }
+.search-mode-compare dl { display: grid; gap: 8px; margin: 0; }
+.search-mode-compare dt { margin-top: 5px; color: var(--thinking-ink); font-size: 13px; font-weight: 700; }
+.search-mode-compare dd { margin: 0; font-size: 13px; line-height: 1.75; }
+.search-solutions { display: grid; gap: 10px; margin-top: 24px; counter-reset: search-solution; }
+.search-solutions > div { display: grid; grid-template-columns: 46px minmax(150px, .7fr) 1.6fr; align-items: start; gap: 16px; padding: 20px; border-left: 3px solid var(--accent); background: rgba(17,18,21,.035); }
+.search-solutions span { color: var(--accent); font: 700 11px/1.5 var(--font-en); }
+.search-solutions strong { color: var(--thinking-ink); font-size: 15px; line-height: 1.55; }
+.search-solutions p { font-size: 13px; line-height: 1.75; }
+.thinking-text-article section p { max-width: 62em; }
+.thinking-psychology-subsection { margin-top: 24px; }
+.thinking-psychology-subsection h4 { margin-bottom: 10px; color: var(--thinking-ink); font-size: 16px; line-height: 1.5; }
+.thinking-psychology-subsection ul { display: grid; gap: 9px; margin: 12px 0 0 20px; font-size: 14px; line-height: 1.85; }
+.thinking-psychology-article blockquote strong { display: block; margin-bottom: 10px; color: var(--accent); }
+.thinking-psychology-article blockquote p { font-size: 14px; }
+.psychology-visual { position: relative; overflow: hidden; margin-top: 26px !important; padding: 24px; border: 1px solid rgba(17,18,21,.08); border-radius: 14px; background-color: #fafafa; background-image: radial-gradient(rgba(17,18,21,.18) 1px, transparent 1px); background-size: 18px 18px; }
+.psychology-visual-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.psychology-visual-heading strong { color: var(--thinking-ink); font-size: 17px; }
+.psychology-visual-heading span { color: rgba(17,18,21,.36); font: 600 9px/1 var(--font-en); letter-spacing: .12em; }
+.isolation-field { display: grid; grid-template-columns: repeat(5, 18px); justify-content: center; gap: 18px 28px; margin: 38px 0; }
+.isolation-field i { width: 18px; aspect-ratio: 1; border-radius: 50%; background: #d9dadd; }
+.isolation-field i.is-isolated { transform: scale(1.65); background: var(--accent); box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 12%, transparent); }
+.psychology-visual-note { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.psychology-visual-note span { padding: 10px 12px; border-radius: 8px; color: rgba(17,18,21,.6); background: rgba(238,240,244,.94); font-size: 11px; line-height: 1.5; text-align: center; }
+.conditioning-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 12px; margin-top: 30px; }
+.conditioning-flow > div { display: grid; min-height: 132px; align-content: center; justify-items: center; padding: 18px 12px; border-radius: 50%; background: #eef0f3; text-align: center; }
+.conditioning-flow > div.is-accent { color: #fff; background: var(--accent); }
+.conditioning-flow i { margin-bottom: 8px; color: rgba(17,18,21,.36); font: 600 9px/1 var(--font-en); }
+.conditioning-flow .is-accent i { color: rgba(255,255,255,.62); }
+.conditioning-flow strong { color: var(--thinking-ink); font-size: 15px; }
+.conditioning-flow .is-accent strong { color: #fff; }
+.conditioning-flow span { margin-top: 6px; color: rgba(17,18,21,.5); font-size: 10px; line-height: 1.5; }
+.conditioning-flow .is-accent span { color: rgba(255,255,255,.72); }
+.conditioning-flow > b { color: var(--accent); font-size: 22px; font-weight: 400; }
 
 .thinking-aside {
   position: sticky;
@@ -265,6 +361,37 @@
   .thinking-wayfinding-table dt,
   .thinking-wayfinding-table dd { padding: 12px; font-size: 12px; }
   .thinking-wayfinding-table dd { padding-top: 0; border-left: 0; }
+  .thinking-agent-stages,
+  .thinking-agent-scenarios { grid-template-columns: 1fr; }
+  .thinking-agent-stages > div { min-height: 0; padding: 18px; }
+  .thinking-agent-stages span { margin-bottom: 16px; }
+  .thinking-agent-loop { gap: 7px; }
+  .thinking-agent-loop i { width: 10px; }
+  .aigc-paradigm-grid,
+  .aigc-evolution,
+  .aigc-principles,
+  .aigc-next-steps { grid-template-columns: 1fr; }
+  .aigc-paradigm-grid > div { min-height: 0; padding: 18px; }
+  .aigc-paradigm-grid span { margin-bottom: 18px; }
+  .aigc-evolution-stage { grid-template-rows: auto auto 170px auto; }
+  .aigc-orbit { height: 170px; }
+  .aigc-principles > div,
+  .aigc-principles > div:nth-child(4) { grid-column: auto; min-height: 0; }
+  .aigc-principles span { margin-bottom: 14px; }
+  .aigc-next-steps strong { min-height: 0; }
+  .search-mode-compare { grid-template-columns: 1fr; }
+  .search-mode-compare > div { padding: 18px; }
+  .search-mode-compare span { margin-bottom: 18px; }
+  .search-solutions > div { grid-template-columns: 34px 1fr; gap: 10px 12px; padding: 16px; }
+  .search-solutions p { grid-column: 2; }
+  .psychology-visual { padding: 18px 14px; }
+  .psychology-visual-heading { display: grid; gap: 6px; }
+  .psychology-visual-heading strong { font-size: 15px; }
+  .isolation-field { gap: 16px 22px; margin: 32px 0; }
+  .psychology-visual-note { grid-template-columns: 1fr; }
+  .conditioning-flow { grid-template-columns: 1fr; gap: 8px; }
+  .conditioning-flow > div { width: 150px; min-height: 150px; justify-self: center; }
+  .conditioning-flow > b { justify-self: center; transform: rotate(90deg); }
   .thinking-article blockquote { max-width: 100%; padding: 12px 14px; font-size: 14px; }
   .thinking-aside { display: block; padding: 10px; border-radius: 16px; }
   .thinking-aside-copy { padding: 16px 12px 24px; }

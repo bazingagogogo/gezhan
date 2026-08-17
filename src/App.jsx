@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import OptionWheel from './components/OptionWheel.jsx'
 import ZoomableBoard from './components/ZoomableBoard.jsx'
 import SideRays from './components/SideRays.jsx'
+import FoldText from './components/FoldText.jsx'
 import DesignThinkingPage from './pages/DesignThinkingPage.jsx'
 
-import FoldText from './components/FoldText.jsx'
 const HERO_CORE_LEAD = '探索未来数字产品的'
 const HERO_CORE_EMPHASIS = '体验边界'
 const HERO_CORE_COPY = `${HERO_CORE_LEAD}${HERO_CORE_EMPHASIS}。`
@@ -155,7 +155,7 @@ function HeroCanvas() {
 }
 
 /* ---------- 点击复制按钮（邮箱 / 手机号） ---------- */
-function CopyButton({ value, className = '', children }) {
+function CopyButton({ value, className = '', children, inlineFeedback = false }) {
   const [ok, setOk] = useState(false)
   const timer = useRef(null)
   const copy = async (e) => {
@@ -179,9 +179,32 @@ function CopyButton({ value, className = '', children }) {
   useEffect(() => () => clearTimeout(timer.current), [])
   return (
     <button type="button" onClick={copy} className={`${className} copy-btn`} title="点击复制">
-      {children}
-      <span className={`copy-toast ${ok ? 'show' : ''}`}>已复制</span>
+      {inlineFeedback && ok ? '已复制' : children}
+      {!inlineFeedback && <span className={`copy-toast ${ok ? 'show' : ''}`}>已复制</span>}
     </button>
+  )
+}
+
+function DownloadButton({ href, download, className = '', children, inlineFeedback = false }) {
+  const [downloading, setDownloading] = useState(false)
+  const timer = useRef(null)
+  const beginDownload = () => {
+    setDownloading(true)
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => setDownloading(false), 1800)
+  }
+  useEffect(() => () => clearTimeout(timer.current), [])
+  return (
+    <a
+      href={href}
+      download={download}
+      className={`${className} feedback-btn`}
+      aria-busy={downloading}
+      onClick={beginDownload}
+    >
+      {inlineFeedback && downloading ? '下载中' : children}
+      {!inlineFeedback && <span className={`copy-toast ${downloading ? 'show' : ''}`} role="status">下载中</span>}
+    </a>
   )
 }
 
@@ -226,7 +249,7 @@ function Nav() {
           <img src="/images/logo.png" alt="许咏芳 Portfolio Logo" />
         </a>
         <a href="/thinking">设计思考</a>
-        <a href="/xuyongfang-portfolio.pdf" download="许咏芳-UIUX设计师-作品集.pdf">简历下载</a>
+        <a href="/downloads/xuyongfang-resume-uiux.pdf" download="简历-许咏芳-UIUX-17611540569.pdf">简历下载</a>
       </div>
       <div className="nav-mobile">
         <a href="/#top" className="nav-mobile-logo" aria-label="回到顶部">
@@ -250,7 +273,7 @@ function Nav() {
         <a ref={firstMenuItemRef} href="/#about" onClick={() => closeMenu()}>个人介绍</a>
         <a href="/#works" onClick={() => closeMenu()}>项目作品</a>
         <a href="/thinking" onClick={() => closeMenu()}>设计思考</a>
-        <a href="/xuyongfang-portfolio.pdf" download="许咏芳-UIUX设计师-作品集.pdf" onClick={() => closeMenu()}>简历下载</a>
+        <a href="/downloads/xuyongfang-resume-uiux.pdf" download="简历-许咏芳-UIUX-17611540569.pdf" onClick={() => closeMenu()}>简历下载</a>
       </div>
     </nav>
   )
@@ -319,10 +342,10 @@ function Hero() {
         <div className="hero-foot">
           <div className="hero-actions">
             <a className="btn-primary" href="#works">查看项目</a>
-            <a className="btn-ghost" href="/xuyongfang-portfolio.pdf" download="作品集-许咏芳-UXUI.pdf">
+            <DownloadButton className="btn-ghost" href="/xuyongfang-portfolio.pdf" download="作品集-许咏芳-UIUX-17611540569.pdf">
               <span className="hero-download-wide">下载作品集</span>
               <span className="hero-download-compact">下载PDF</span>
-            </a>
+            </DownloadButton>
           </div>
           <div className="hero-who">
             <p>
@@ -531,8 +554,8 @@ function About() {
               我是许咏芳，一名拥有 3 年经验的 UI/UX 设计师，我参与过移动端、PC、Web 与后台产品的体验设计，也负责用户研究、交互优化和多端设计系统建设。
             </p>
             <div className="about-actions">
-              <a className="about-cta solid" href="/xuyongfang-portfolio.pdf" download="作品集-许咏芳-UXUI.pdf">简历下载</a>
-              <CopyButton value="1403790559@qq.com" className="about-cta btn-ghost">联系我</CopyButton>
+              <DownloadButton inlineFeedback className="about-cta solid" href="/downloads/xuyongfang-resume-uiux.pdf" download="简历-许咏芳-UIUX-17611540569.pdf">简历下载</DownloadButton>
+              <CopyButton inlineFeedback value="17611540569" className="about-cta btn-ghost">联系我</CopyButton>
             </div>
           </div>
 
@@ -595,7 +618,7 @@ const WORKS = [
       { k: '行业', v: '企业级 SaaS' },
       { k: '平台', v: '移动端 + PC' },
       { k: '交付', v: '交互 / 视觉 / 组件库' },
-      { k: '年份', v: '2024 — 2026' },
+      { k: '年份', v: '2025 — 2026' },
     ],
     tag: 'AI / KNOWLEDGE',
     image: '/images/welink-project-cover.png',
@@ -609,7 +632,7 @@ const WORKS = [
       { k: '行业', v: '高校心理服务' },
       { k: '平台', v: '移动端' },
       { k: '交付', v: '服务设计 / 用户研究 / UI' },
-      { k: '年份', v: '2023' },
+      { k: '年份', v: '2022' },
     ],
     tag: 'SERVICE / WELLNESS',
     image: '/images/nianyu-cover.jpg',
@@ -648,7 +671,7 @@ function Works() {
 }
 
 const WELINK_CHAPTER_IDS = ['section-cover', 'section-background', 'section-touchpoint', 'section-journey', 'section-bottleneck', 'section-visual', 'section-overview', 'section-page-exploration', 'section-pc', 'section-closing']
-const NIANYU_CHAPTER_IDS = ['project-cover', 'project-background', 'project-insight', 'project-process', 'project-solution']
+const NIANYU_CHAPTER_IDS = ['nianyu-cover', 'nianyu-background', 'nianyu-insight', 'nianyu-visual', 'nianyu-role', 'nianyu-closing']
 
 function useActiveChapter(ids) {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -732,7 +755,7 @@ function WelinkProject() {
         />
       </div>
       <section className="project-overview" aria-label="项目概览">
-        <span className="project-overview-year">2024 — 2026</span>
+        <span className="project-overview-year">2025 — 2026</span>
         <h1>WeLink 智能笔记</h1>
         <p>面向企业协作场景的 AI 笔记升级，通过智能创作、知识关联与多触点推荐，<br />让碎片记录转化为可复用的知识资产。</p>
         <dl>
@@ -791,7 +814,7 @@ function NianyuProject() {
   }, [])
 
   useEffect(() => {
-    const background = document.getElementById('project-background')
+    const background = document.getElementById('nianyu-background')
     if (!background) return
     const onScroll = () => setShowProjectMenu(background.getBoundingClientRect().top <= window.innerHeight * 0.72)
     onScroll()
@@ -809,7 +832,7 @@ function NianyuProject() {
 
       <div className={`project-option-wheel ${showProjectMenu ? 'is-visible' : ''}`}>
         <OptionWheel
-          items={['项目封面', '项目背景', '核心洞察', '设计方案', '项目复盘']}
+          items={['封面', '项目背景', '用户洞察', '视觉方案呈现', '我的角色', '封底']}
           activeIndex={activeChapter}
           defaultSelected={0}
           textColor="#a6a6a6"
@@ -830,32 +853,32 @@ function NianyuProject() {
           soundUrl="/sounds/click-soft.mp3"
           soundVolume={0.5}
           onItemClick={(index) => {
-            const ids = ['project-cover', 'project-background', 'project-insight', 'project-process', 'project-solution']
+            const ids = NIANYU_CHAPTER_IDS
             document.getElementById(ids[index])?.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }}
         />
       </div>
 
       <section className="project-overview" aria-label="项目概览">
-        <span className="project-overview-year">2023</span>
+        <span className="project-overview-year">2022</span>
         <h1>念屿 · 高校心理健康平台</h1>
         <p>面向高校大学生的心理健康服务平台，通过智能匹配、隐私保护、持续档案与快速求助机制，连接线上咨询和线下服务，让心理支持更专业、更及时，也更有温度。</p>
         <dl>
-          <div><dt>我的角色</dt><dd>UI / UX 设计师</dd></div>
-          <div><dt>负责内容</dt><dd>用户研究 · 服务设计 · UI</dd></div>
+          <div><dt>我的角色</dt><dd>产品 / UI / UX 设计师</dd></div>
+          <div><dt>负责内容</dt><dd>产品功能规划 · 用户研究 · 服务设计 · UI</dd></div>
           <div><dt>产品平台</dt><dd>移动端</dd></div>
         </dl>
       </section>
 
-      <ZoomableBoard className="project-cover" id="project-cover" label="念屿项目封面" src="/images/projects/nianyu/cover-01.png" alt="念屿高校心理健康平台项目封面" eager />
-      <ZoomableBoard className="project-board project-board-background" id="project-background" label="念屿项目背景" src="/images/projects/nianyu/background-02.png" alt="念屿心理咨询平台项目背景与服务生态" />
-      <ZoomableBoard className="project-board project-board-insight" id="project-insight" label="念屿核心洞察" src="/images/projects/nianyu/journey-03.png" alt="念屿核心设计挑战、用户旅程与机会点" />
-      <ZoomableBoard className="project-board project-board-process" id="project-process" label="念屿在线预约方案" src="/images/projects/nianyu/appointment-04.png" alt="念屿高效在线心理咨询预约方案" />
-      <ZoomableBoard className="project-board" label="念屿隐私与线下服务" src="/images/projects/nianyu/privacy-service-05.png" alt="念屿隐私保护与线上线下咨询服务体验" />
-      <ZoomableBoard className="project-board" label="念屿心理档案" src="/images/projects/nianyu/profile-tracking-06.png" alt="念屿专业心理档案分析与持续追踪" />
-      <ZoomableBoard className="project-board" label="念屿快速求助" src="/images/projects/nianyu/emergency-support-07.png" alt="念屿一键快速求助与自救方案" />
-      <ZoomableBoard className="project-board" id="project-solution" label="念屿项目复盘" src="/images/projects/nianyu/role-reflection-08.png" alt="念屿项目角色、设计过程与项目复盘" />
-      <ZoomableBoard className="project-board project-board-closing" label="念屿项目结束" src="/images/projects/nianyu/closing-09.png" alt="念屿项目感谢观看" />
+      <ZoomableBoard className="project-cover" id="nianyu-cover" label="封面" src="/images/projects/nianyu/cover-01.png" alt="念屿高校心理健康平台项目封面" eager />
+      <ZoomableBoard className="project-board project-board-background" id="nianyu-background" label="项目背景" src="/images/projects/nianyu/background-02.png" alt="念屿心理咨询平台项目背景与服务生态" />
+      <ZoomableBoard className="project-board project-board-insight" id="nianyu-insight" label="用户洞察" src="/images/projects/nianyu/journey-03.png" alt="念屿核心设计挑战、用户旅程与机会点" />
+      <ZoomableBoard className="project-board project-board-process" id="nianyu-visual" label="视觉方案呈现" src="/images/projects/nianyu/appointment-04.png" alt="念屿高效在线心理咨询预约方案" />
+      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/privacy-service-05.png" alt="念屿隐私保护与线上线下咨询服务体验" />
+      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/profile-tracking-06.png" alt="念屿专业心理档案分析与持续追踪" />
+      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/emergency-support-07.png" alt="念屿一键快速求助与自救方案" />
+      <ZoomableBoard className="project-board" id="nianyu-role" label="我的角色" src="/images/projects/nianyu/role-reflection-08.png" alt="念屿项目角色、设计过程与项目复盘" />
+      <ZoomableBoard className="project-board project-board-closing" id="nianyu-closing" label="封底" src="/images/projects/nianyu/closing-09.png" alt="念屿项目感谢观看" />
 
       <button className="project-to-top" type="button" aria-label="返回顶部" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <span aria-hidden="true">↑</span>
@@ -892,7 +915,7 @@ function MoreWorks() {
           <div className="more-sticky-top">
             <span className="section-index">03 / MORE WORKS</span>
             <h2 className="section-title"><FoldText text="更多项目" /></h2>
-            <p className="section-note">过程稿与界面呈现，让设计逻辑更清晰。</p>
+            <p className="section-note">从视觉设计到三维与动态表达，展示我在不同媒介中的设计延展能力。</p>
             <nav className="more-nav" aria-label="更多项目导航">
               {MORE.map((m, index) => (
                 <button className={activeMore === index ? 'active' : ''} key={m.no} onClick={() => cardRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>{m.h}</button>
@@ -948,7 +971,7 @@ function Strengths() {
             <span className="section-index">04 / STRENGTHS</span>
             <h2 className="section-title"><FoldText text="我能做的事" /></h2>
           </div>
-          <p className="section-note">与其观望 AI，不如先动手试 —— 试了才知道哪里是真的深。</p>
+          <p className="section-note">覆盖产品思考、体验设计与视觉表达，把复杂问题转化为清晰、可落地的设计方案。</p>
         </div>
         <div className="strength-grid">
           {STRENGTHS.map((s, index) => (

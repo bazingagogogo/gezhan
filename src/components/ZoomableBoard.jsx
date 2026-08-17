@@ -119,10 +119,16 @@ export default function ZoomableBoard({
         <div className="board-viewer" role="dialog" aria-modal="true" aria-label={`图片查看器：${alt}`}>
           <div className="board-viewer-toolbar">
             <span>{Math.round(scale * 100)}%</span>
-            <button type="button" onClick={() => changeScale(scale - SCALE_STEP)} disabled={scale <= MIN_SCALE} aria-label="缩小">−</button>
+            <button type="button" onClick={() => changeScale(scale - SCALE_STEP)} disabled={scale <= MIN_SCALE} aria-label="缩小">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10h10" /></svg>
+            </button>
             <button type="button" onClick={resetView} aria-label="恢复原始比例">1:1</button>
-            <button type="button" onClick={() => changeScale(scale + SCALE_STEP)} disabled={scale >= MAX_SCALE} aria-label="放大">＋</button>
-            <button className="board-viewer-close" type="button" onClick={closeViewer} aria-label="关闭图片查看器">×</button>
+            <button type="button" onClick={() => changeScale(scale + SCALE_STEP)} disabled={scale >= MAX_SCALE} aria-label="放大">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10h10M10 5v10" /></svg>
+            </button>
+            <button className="board-viewer-close" type="button" onClick={closeViewer} aria-label="关闭图片查看器">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 5.5 9 9m0-9-9 9" /></svg>
+            </button>
           </div>
           <div
             ref={stageRef}

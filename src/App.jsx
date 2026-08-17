@@ -72,7 +72,7 @@ function IntroOverlay() {
   return (
     <div className="intro-overlay" aria-hidden="true">
       <div className="intro-brand-group">
-        <span className="intro-logo-carrier"><img src="/images/logo.png" alt="" /></span>
+        <span className="intro-logo-carrier"><img src="/images/logo.webp" alt="" /></span>
         <span>XU YONGFANG</span>
       </div>
       <p className="intro-core-copy">
@@ -246,14 +246,14 @@ function Nav() {
         <a href="/#about">个人介绍</a>
         <a href="/#works">项目作品</a>
         <a href="/#top" className="nav-logo" aria-label="回到顶部">
-          <img src="/images/logo.png" alt="许咏芳 Portfolio Logo" />
+          <img src="/images/logo.webp" alt="许咏芳 Portfolio Logo" />
         </a>
         <a href="/thinking">设计思考</a>
         <a href="/downloads/xuyongfang-resume-uiux.pdf" download="简历-许咏芳-UIUX-17611540569.pdf">简历下载</a>
       </div>
       <div className="nav-mobile">
         <a href="/#top" className="nav-mobile-logo" aria-label="回到顶部">
-          <img src="/images/logo.png" alt="许咏芳 Portfolio Logo" />
+          <img src="/images/logo.webp" alt="许咏芳 Portfolio Logo" />
         </a>
         <button
           ref={menuButtonRef}
@@ -283,32 +283,56 @@ function Nav() {
 function Hero() {
   const [videoOk, setVideoOk] = useState(true)
   const [reduceMotion, setReduceMotion] = useState(false)
+  const [useImageMotion, setUseImageMotion] = useState(() => window.matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)').matches)
   const videoRef = useRef(null)
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const delivery = window.matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)')
     const syncMotion = () => {
       setReduceMotion(media.matches)
       if (media.matches) videoRef.current?.pause()
       else videoRef.current?.play().catch(() => {})
     }
+    const syncDelivery = () => setUseImageMotion(delivery.matches)
+    const listen = (query, handler) => query.addEventListener ? query.addEventListener('change', handler) : query.addListener(handler)
+    const unlisten = (query, handler) => query.removeEventListener ? query.removeEventListener('change', handler) : query.removeListener(handler)
     syncMotion()
-    media.addEventListener('change', syncMotion)
-    return () => media.removeEventListener('change', syncMotion)
+    syncDelivery()
+    listen(media, syncMotion)
+    listen(delivery, syncDelivery)
+    return () => {
+      unlisten(media, syncMotion)
+      unlisten(delivery, syncDelivery)
+    }
   }, [])
   return (
     <header className="hero" id="top">
       <div className="hero-media">
-        {videoOk && (
+        {(useImageMotion || reduceMotion) && (
+          <img
+            className="hero-image-motion"
+            src={reduceMotion ? '/images/hero-mobile-poster.webp' : '/images/hero-mobile-motion.webp'}
+            alt=""
+            aria-hidden="true"
+            fetchPriority="high"
+            decoding="async"
+          />
+        )}
+        {!useImageMotion && !reduceMotion && videoOk && (
           <video
             ref={videoRef}
-            autoPlay={!reduceMotion} muted loop playsInline
-            onLoadedData={(event) => reduceMotion && event.currentTarget.pause()}
+            autoPlay muted loop playsInline
+            preload="metadata"
+            poster="/images/hero-mobile-poster.webp"
+            disablePictureInPicture
+            controlsList="nodownload noplaybackrate noremoteplayback"
+            onCanPlay={(event) => event.currentTarget.play().catch(() => {})}
             style={{ position: 'absolute', inset: 0 }}
           >
             <source src="/hero-bg.mp4" type="video/mp4" onError={() => setVideoOk(false)} />
           </video>
         )}
-        {!videoOk && <HeroCanvas />}
+        {!useImageMotion && !reduceMotion && !videoOk && <img className="hero-image-motion" src="/images/hero-mobile-poster.webp" alt="" aria-hidden="true" />}
         <div className="hero-lines">
           <span style={{ left: '20%' }} />
           <span style={{ left: '40%' }} />
@@ -330,11 +354,11 @@ function Hero() {
               我是许咏芳，
             </span></span>
             <span className="row"><span>
-              <span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>{HERO_CORE_LEAD}<em>{HERO_CORE_EMPHASIS}</em>。</span>
+              <span className="title-cluster"><i className="t-img pill"><img src="/images/hero-title-cover.webp" alt="" /></i>{HERO_CORE_LEAD}<em>{HERO_CORE_EMPHASIS}</em>。</span>
             </span></span>
           </span>
           <span className="hero-title-mobile" aria-hidden="true">
-            <span className="row"><span className="title-cluster"><i className="t-img pill"><img src="/images/welink-cover.jpg" alt="" /></i>探索</span></span>
+            <span className="row"><span className="title-cluster"><i className="t-img pill"><img src="/images/hero-title-cover.webp" alt="" /></i>探索</span></span>
             <span className="row"><span>{HERO_CORE_LEAD.replace('探索', '')}</span></span>
             <span className="row"><span><em>{HERO_CORE_EMPHASIS}</em></span></span>
           </span>
@@ -579,7 +603,7 @@ function About() {
                 <div className="profile-input"><span>继续了解我…</span><b>↑</b></div>
               </div>
               <div className="profile-video-placeholder">
-                <img src="/images/personal-video-cover.png" alt="个人视频封面" />
+                <img src="/images/hero-mobile-poster.webp" alt="个人视频封面" />
                 <div className="video-placeholder-glow" />
               </div>
             </div>
@@ -621,7 +645,7 @@ const WORKS = [
       { k: '年份', v: '2025 — 2026' },
     ],
     tag: 'AI / KNOWLEDGE',
-    image: '/images/welink-project-cover.png',
+    image: '/images/welink-project-cover.webp',
     href: '/projects/welink',
   },
   {
@@ -635,7 +659,7 @@ const WORKS = [
       { k: '年份', v: '2022' },
     ],
     tag: 'SERVICE / WELLNESS',
-    image: '/images/nianyu-cover.jpg',
+    image: '/images/nianyu-cover.webp',
     href: '/projects/nianyu',
   },
 ]
@@ -870,15 +894,15 @@ function NianyuProject() {
         </dl>
       </section>
 
-      <ZoomableBoard className="project-cover" id="nianyu-cover" label="封面" src="/images/projects/nianyu/cover-01.png" alt="念屿高校心理健康平台项目封面" eager />
-      <ZoomableBoard className="project-board project-board-background" id="nianyu-background" label="项目背景" src="/images/projects/nianyu/background-02.png" alt="念屿心理咨询平台项目背景与服务生态" />
-      <ZoomableBoard className="project-board project-board-insight" id="nianyu-insight" label="用户洞察" src="/images/projects/nianyu/journey-03.png" alt="念屿核心设计挑战、用户旅程与机会点" />
-      <ZoomableBoard className="project-board project-board-process" id="nianyu-visual" label="视觉方案呈现" src="/images/projects/nianyu/appointment-04.png" alt="念屿高效在线心理咨询预约方案" />
-      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/privacy-service-05.png" alt="念屿隐私保护与线上线下咨询服务体验" />
-      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/profile-tracking-06.png" alt="念屿专业心理档案分析与持续追踪" />
-      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/emergency-support-07.png" alt="念屿一键快速求助与自救方案" />
-      <ZoomableBoard className="project-board" id="nianyu-role" label="我的角色" src="/images/projects/nianyu/role-reflection-08.png" alt="念屿项目角色、设计过程与项目复盘" />
-      <ZoomableBoard className="project-board project-board-closing" id="nianyu-closing" label="封底" src="/images/projects/nianyu/closing-09.png" alt="念屿项目感谢观看" />
+      <ZoomableBoard className="project-cover" id="nianyu-cover" label="封面" src="/images/projects/nianyu/cover-01.webp" alt="念屿高校心理健康平台项目封面" eager />
+      <ZoomableBoard className="project-board project-board-background" id="nianyu-background" label="项目背景" src="/images/projects/nianyu/background-02.webp" alt="念屿心理咨询平台项目背景与服务生态" />
+      <ZoomableBoard className="project-board project-board-insight" id="nianyu-insight" label="用户洞察" src="/images/projects/nianyu/journey-03.webp" alt="念屿核心设计挑战、用户旅程与机会点" />
+      <ZoomableBoard className="project-board project-board-process" id="nianyu-visual" label="视觉方案呈现" src="/images/projects/nianyu/appointment-04.webp" alt="念屿高效在线心理咨询预约方案" />
+      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/privacy-service-05.webp" alt="念屿隐私保护与线上线下咨询服务体验" />
+      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/profile-tracking-06.webp" alt="念屿专业心理档案分析与持续追踪" />
+      <ZoomableBoard className="project-board" label="视觉方案呈现" src="/images/projects/nianyu/emergency-support-07.webp" alt="念屿一键快速求助与自救方案" />
+      <ZoomableBoard className="project-board" id="nianyu-role" label="我的角色" src="/images/projects/nianyu/role-reflection-08.webp" alt="念屿项目角色、设计过程与项目复盘" />
+      <ZoomableBoard className="project-board project-board-closing" id="nianyu-closing" label="封底" src="/images/projects/nianyu/closing-09.webp" alt="念屿项目感谢观看" />
 
       <button className="project-to-top" type="button" aria-label="返回顶部" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <span aria-hidden="true">↑</span>
@@ -889,11 +913,11 @@ function NianyuProject() {
 
 /* ---------- 更多项目（编号列表 + 悬停出图） ---------- */
 const MORE = [
-  { no: '(01)', h: '寺庙 · 场景渲染', p: '暗夜东方建筑场景的建模、材质、灯光与氛围表达。', img: '/images/more-projects/01-temple.png' },
-  { no: '(02)', h: '智能手环 · 产品设计', p: '智能穿戴设备的产品造型、材质与动态视觉呈现。', img: '/images/more-projects/02-bracelet.png' },
-  { no: '(03)', h: '机械手臂 · 动态实验', p: '机械装置与磨砂颗粒语言结合的循环动画实验。', img: '/images/more-projects/03-robot-arm.gif' },
-  { no: '(04)', h: '破碎 Logo · 动效设计', p: '围绕品牌标识展开的破碎、聚合与循环动态探索。', img: '/images/more-projects/04-logo.gif' },
-  { no: '(05)', h: '图拉斯开学季 · 视觉设计', p: '围绕图拉斯海外开学季促销，完成电商主视觉与年轻化营销表达。', img: '/images/more-projects/05-back-to-school.png' },
+  { no: '(01)', h: '寺庙 · 场景渲染', p: '暗夜东方建筑场景的建模、材质、灯光与氛围表达。', img: '/images/more-projects/01-temple.webp' },
+  { no: '(02)', h: '智能手环 · 产品设计', p: '智能穿戴设备的产品造型、材质与动态视觉呈现。', img: '/images/more-projects/02-bracelet.webp' },
+  { no: '(03)', h: '机械手臂 · 动态实验', p: '机械装置与磨砂颗粒语言结合的循环动画实验。', img: '/images/more-projects/03-robot-arm.webp' },
+  { no: '(04)', h: '破碎 Logo · 动效设计', p: '围绕品牌标识展开的破碎、聚合与循环动态探索。', img: '/images/more-projects/04-logo.webp' },
+  { no: '(05)', h: '图拉斯开学季 · 视觉设计', p: '围绕图拉斯海外开学季促销，完成电商主视觉与年轻化营销表达。', img: '/images/more-projects/05-back-to-school.webp' },
 ]
 
 function MoreWorks() {
@@ -941,23 +965,23 @@ function MoreWorks() {
 /* ---------- 个人优势（2+3 卡片 + 品牌插图） ---------- */
 const STRENGTHS = [
   {
-    no: '01', tag: 'PRODUCT DESIGN', h: '全链路设计', img: '/images/strengths/fullstack.png',
+    no: '01', tag: 'PRODUCT DESIGN', h: '全链路设计', img: '/images/strengths/fullstack.webp',
     chips: ['交互拆解到视觉落地', '全链路决策', '体验一致性与落地效率'],
   },
   {
-    no: '02', tag: 'VISUAL DESIGN', h: '视觉语言搭建', img: '/images/strengths/visual.png',
+    no: '02', tag: 'VISUAL DESIGN', h: '视觉语言搭建', img: '/images/strengths/visual.webp',
     chips: ['品牌视觉语言构建与落地', '平面 / 3D / 动效', '视觉规范与延展'],
   },
   {
-    no: '03', tag: 'AI WORKFLOW', h: 'AI 设计提效', img: '/images/strengths/ai.png',
+    no: '03', tag: 'AI WORKFLOW', h: 'AI 设计提效', img: '/images/strengths/ai.webp',
     chips: ['AI 辅助竞品分析与洞察', '初稿原型快速验证', '测试归纳总结'],
   },
   {
-    no: '04', tag: 'USER RESEARCH', h: '用户研究', img: '/images/strengths/research.png',
+    no: '04', tag: 'USER RESEARCH', h: '用户研究', img: '/images/strengths/research.webp',
     chips: ['用户画像与旅程地图绘制', '访谈与可用性测试', '洞察驱动设计机会点'],
   },
   {
-    no: '05', tag: 'COLLABORATION', h: '跨职能协作', img: '/images/strengths/collab.png',
+    no: '05', tag: 'COLLABORATION', h: '跨职能协作', img: '/images/strengths/collab.webp',
     chips: ['高效沟通推进产品落地', 'B/C 端双端组件库', '产品数据验证分析'],
   },
 ]

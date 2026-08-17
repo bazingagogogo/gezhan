@@ -250,7 +250,8 @@ html.intro-playing body { overflow: hidden; }
   z-index: 0;
 }
 .hero-media video,
-.hero-media canvas {
+.hero-media canvas,
+.hero-media > img {
   width: 100%;
   height: 100%;
   object-fit: cover;

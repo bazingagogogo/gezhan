@@ -1,6 +1,2 @@
 ﻿node_modules/
 dist/
-vite-dev*.log
-/desktop-*.png
-/mobile-*.png
-public/images/more-projects/04-logo.gif

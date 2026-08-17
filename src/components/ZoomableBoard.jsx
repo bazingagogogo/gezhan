@@ -107,7 +107,7 @@ export default function ZoomableBoard({
             src={src}
             alt={alt}
             loading={eager ? 'eager' : 'lazy'}
-            fetchPriority={eager ? 'high' : 'auto'}
+            fetchPriority={eager ? 'high' : 'low'}
             decoding="async"
             draggable="false"
           />

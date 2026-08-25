@@ -283,56 +283,64 @@ function Nav() {
 function Hero() {
   const [videoOk, setVideoOk] = useState(true)
   const [reduceMotion, setReduceMotion] = useState(false)
-  const [useImageMotion, setUseImageMotion] = useState(() => window.matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)').matches)
   const videoRef = useRef(null)
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const delivery = window.matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)')
+    const playVideo = () => {
+      const video = videoRef.current
+      if (!video || media.matches) return
+      video.muted = true
+      video.setAttribute('muted', '')
+      video.setAttribute('playsinline', '')
+      video.play().catch(() => {})
+    }
     const syncMotion = () => {
       setReduceMotion(media.matches)
       if (media.matches) videoRef.current?.pause()
-      else videoRef.current?.play().catch(() => {})
+      else window.requestAnimationFrame(playVideo)
     }
-    const syncDelivery = () => setUseImageMotion(delivery.matches)
+    const resumeWhenVisible = () => {
+      if (document.visibilityState === 'visible') playVideo()
+    }
     const listen = (query, handler) => query.addEventListener ? query.addEventListener('change', handler) : query.addListener(handler)
     const unlisten = (query, handler) => query.removeEventListener ? query.removeEventListener('change', handler) : query.removeListener(handler)
     syncMotion()
-    syncDelivery()
     listen(media, syncMotion)
-    listen(delivery, syncDelivery)
+    window.addEventListener('pageshow', playVideo)
+    window.addEventListener('pointerdown', playVideo, { passive: true })
+    window.addEventListener('touchstart', playVideo, { passive: true })
+    document.addEventListener('visibilitychange', resumeWhenVisible)
     return () => {
       unlisten(media, syncMotion)
-      unlisten(delivery, syncDelivery)
+      window.removeEventListener('pageshow', playVideo)
+      window.removeEventListener('pointerdown', playVideo)
+      window.removeEventListener('touchstart', playVideo)
+      document.removeEventListener('visibilitychange', resumeWhenVisible)
     }
   }, [])
   return (
     <header className="hero" id="top">
       <div className="hero-media">
-        {(useImageMotion || reduceMotion) && (
-          <img
-            className="hero-image-motion"
-            src={reduceMotion ? '/images/hero-mobile-poster.webp' : '/images/hero-mobile-motion.webp'}
-            alt=""
-            aria-hidden="true"
-            fetchPriority="high"
-            decoding="async"
-          />
-        )}
-        {!useImageMotion && !reduceMotion && videoOk && (
+        {!reduceMotion && videoOk && (
           <video
             ref={videoRef}
             autoPlay muted loop playsInline
-            preload="metadata"
-            poster="/images/hero-mobile-poster.webp"
+            controls={false}
+            preload="auto"
             disablePictureInPicture
+            disableRemotePlayback
             controlsList="nodownload noplaybackrate noremoteplayback"
+            onLoadedMetadata={(event) => event.currentTarget.play().catch(() => {})}
             onCanPlay={(event) => event.currentTarget.play().catch(() => {})}
+            onError={() => setVideoOk(false)}
+            aria-hidden="true"
+            tabIndex={-1}
             style={{ position: 'absolute', inset: 0 }}
           >
             <source src="/hero-bg.mp4" type="video/mp4" onError={() => setVideoOk(false)} />
           </video>
         )}
-        {!useImageMotion && !reduceMotion && !videoOk && <img className="hero-image-motion" src="/images/hero-mobile-poster.webp" alt="" aria-hidden="true" />}
+        {(reduceMotion || !videoOk) && <HeroCanvas />}
         <div className="hero-lines">
           <span style={{ left: '20%' }} />
           <span style={{ left: '40%' }} />
@@ -589,8 +597,8 @@ function About() {
             <div className="profile-columns">
               <div className="profile-chat">
                 <div className="profile-chat-head">
-                  <span className="profile-avatar">XYF</span>
-                  <span><strong>个人助手</strong><small>上下滚动查看更多信息</small></span>
+                  <span className="profile-avatar" aria-hidden="true"><img src="/images/profile-avatar.png" alt="" /></span>
+                  <span><strong>关于我</strong><small>上下滚动查看更多信息</small></span>
                 </div>
                 <div className="profile-chat-scroll" ref={chatRef}>
                   {displayMessages.slice(0, visibleMessages).map((message, index) => (
@@ -603,7 +611,7 @@ function About() {
                 <div className="profile-input"><span>继续了解我…</span><b>↑</b></div>
               </div>
               <div className="profile-video-placeholder">
-                <img src="/images/hero-mobile-poster.webp" alt="个人视频封面" />
+                <img src="/images/personal-video-cover.webp" alt="个人视频封面" />
                 <div className="video-placeholder-glow" />
               </div>
             </div>
@@ -916,7 +924,7 @@ const MORE = [
   { no: '(01)', h: '寺庙 · 场景渲染', p: '暗夜东方建筑场景的建模、材质、灯光与氛围表达。', img: '/images/more-projects/01-temple.webp' },
   { no: '(02)', h: '智能手环 · 产品设计', p: '智能穿戴设备的产品造型、材质与动态视觉呈现。', img: '/images/more-projects/02-bracelet.webp' },
   { no: '(03)', h: '机械手臂 · 动态实验', p: '机械装置与磨砂颗粒语言结合的循环动画实验。', img: '/images/more-projects/03-robot-arm.webp' },
-  { no: '(04)', h: '破碎 Logo · 动效设计', p: '围绕品牌标识展开的破碎、聚合与循环动态探索。', img: '/images/more-projects/04-logo.webp' },
+  { no: '(04)', h: '破碎 Logo · 动效设计', p: '围绕品牌标识展开的破碎、聚合与循环动态探索。', img: '/images/more-projects/04-logo.gif' },
   { no: '(05)', h: '图拉斯开学季 · 视觉设计', p: '围绕图拉斯海外开学季促销，完成电商主视觉与年轻化营销表达。', img: '/images/more-projects/05-back-to-school.webp' },
 ]
 

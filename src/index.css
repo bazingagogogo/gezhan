@@ -250,12 +250,20 @@ html.intro-playing body { overflow: hidden; }
   z-index: 0;
 }
 .hero-media video,
-.hero-media canvas,
-.hero-media > img {
+.hero-media canvas {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+.hero-media video {
+  pointer-events: none;
+}
+.hero-media video::-webkit-media-controls,
+.hero-media video::-webkit-media-controls-panel,
+.hero-media video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
 }
 /* 动画线条层 */
 .hero-lines {
@@ -1171,16 +1179,19 @@ button.info-v:hover { color: var(--accent); }
   border-bottom: 1px solid rgba(255,255,255,.07);
 }
 .profile-avatar {
-  display: grid;
-  place-items: center;
+  display: block;
   width: 34px;
   height: 34px;
   flex: 0 0 auto;
   border-radius: 10px;
-  background: linear-gradient(135deg, #e8eef2, #6a9abe);
-  color: #0b0d0e;
-  font-size: 10px;
-  font-weight: 700;
+  overflow: hidden;
+  background: transparent;
+}
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
 }
 .profile-chat-head > span:last-child { display: flex; flex-direction: column; gap: 4px; }
 .profile-chat-head strong { font-size: 14px; font-weight: 700; }

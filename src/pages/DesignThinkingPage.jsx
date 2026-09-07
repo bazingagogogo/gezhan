@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './DesignThinkingPage.css'
+import PortfolioMenu from '../components/PortfolioMenu.jsx'
 
 const thinkingItems = [
   {
@@ -452,8 +453,9 @@ function ChargingArticle() {
 }
 
 export default function DesignThinkingPage() {
-  const [openIndex, setOpenIndex] = useState(0)
-  const [mountedIndexes, setMountedIndexes] = useState(() => new Set([0]))
+  const initialArticle = Number(window.location.hash.match(/^#thinking-trigger-([0-4])$/)?.[1] ?? 0)
+  const [openIndex, setOpenIndex] = useState(initialArticle)
+  const [mountedIndexes, setMountedIndexes] = useState(() => new Set([initialArticle]))
   const pageRef = useRef(null)
   const accordionFrameRef = useRef(0)
 
@@ -519,11 +521,7 @@ export default function DesignThinkingPage() {
       onContextMenu={(event) => { if (event.target.closest('.thinking-article img')) event.preventDefault() }}
       onDragStart={(event) => { if (event.target.closest('.thinking-article img')) event.preventDefault() }}
     >
-      <header className="project-detail-bar thinking-detail-bar">
-        <a href="/" className="project-back"><img src="/icons/chevron-left.svg" alt="" aria-hidden="true" />返回主页</a>
-        <span className="project-detail-name">设计思考</span>
-        <span className="project-detail-count">DESIGN NOTES</span>
-      </header>
+      <PortfolioMenu subpage />
       <section className="thinking-hero" aria-labelledby="thinking-title">
         <div className="thinking-kicker">
           <span>DESIGN THINKING</span>

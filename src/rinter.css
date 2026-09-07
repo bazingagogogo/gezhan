@@ -32,7 +32,7 @@
 
 :root {
   --font-en: 'Rinter', Arial, sans-serif;
-  --font-cn: 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
+  --font-cn: 'MiSans', 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
 }
 
 body,
@@ -40,9 +40,9 @@ button,
 input,
 textarea,
 select {
-  font-family: 'Rinter', 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
+  font-family: 'Rinter', 'MiSans', 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
 }
 
 .intro-core-copy {
-  font-family: 'Rinter', 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
+  font-family: 'Rinter', 'MiSans', 'HarmonyOS Sans Local', 'Microsoft YaHei', sans-serif;
 }

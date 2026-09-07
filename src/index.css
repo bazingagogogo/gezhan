@@ -1,5 +1,14 @@
 /* ============ 基础与变量 ============ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face { font-family: 'MiSans'; src: url('/fonts/MiSans-Medium.otf') format('opentype'); font-style: normal; font-weight: 100 500; font-display: swap; }
+@font-face { font-family: 'MiSans'; src: url('/fonts/MiSans-Semibold.otf') format('opentype'); font-style: normal; font-weight: 600 900; font-display: swap; }
 
 @font-face {
   font-family: 'Logo SC Unbounded Sans';
@@ -49,7 +58,7 @@
   --max: 1700px;
   --pad: clamp(24px, 4vw, 72px);
   --font-en: 'Inter', -apple-system, 'Segoe UI', sans-serif;
-  --font-cn: 'HarmonyOS Sans Medium', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-cn: 'MiSans', 'HarmonyOS Sans Medium', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --ease-out-expo: cubic-bezier(.22, 1, .36, 1);
   --motion-micro: 200ms;
   --motion-small: 480ms;

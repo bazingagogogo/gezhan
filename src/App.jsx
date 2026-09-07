@@ -4,6 +4,11 @@ import ZoomableBoard from './components/ZoomableBoard.jsx'
 import SideRays from './components/SideRays.jsx'
 import FoldText from './components/FoldText.jsx'
 import DesignThinkingPage from './pages/DesignThinkingPage.jsx'
+import AboutDetailPage from './pages/AboutDetailPage.jsx'
+import NoomoHero from './components/NoomoHero.jsx'
+import PortfolioBody from './components/PortfolioBody.jsx'
+import PortfolioMenu from './components/PortfolioMenu.jsx'
+import HomePreloader from './components/HomePreloader.jsx'
 
 const HERO_CORE_LEAD = '探索未来数字产品的'
 const HERO_CORE_EMPHASIS = '体验边界'
@@ -654,6 +659,7 @@ const WORKS = [
     ],
     tag: 'AI / KNOWLEDGE',
     image: '/images/welink-project-cover.webp',
+    previewImage: '/images/welink-preview-01.png',
     href: '/projects/welink',
   },
   {
@@ -668,6 +674,7 @@ const WORKS = [
     ],
     tag: 'SERVICE / WELLNESS',
     image: '/images/nianyu-cover.webp',
+    previewImage: '/images/nianyu-preview.png',
     href: '/projects/nianyu',
   },
 ]
@@ -752,11 +759,7 @@ function WelinkProject() {
   }, [])
   return (
     <main className="project-detail project-detail-welink">
-      <header className="project-detail-bar">
-        <a href="/" className="project-back"><img src="/icons/chevron-left.svg" alt="" aria-hidden="true" />返回主页</a>
-        <span className="project-detail-name">WeLink · 智能笔记</span>
-        <span className="project-detail-count">01 / SELECTED WORKS</span>
-      </header>
+      <PortfolioMenu subpage />
       <div className={`project-option-wheel ${showProjectMenu ? 'is-visible' : ''}`}>
         <OptionWheel
           items={['封面', '项目背景', '用户触点分析', '用户旅程图', '洞察与瓶颈', '视觉推导', '页面总览', '设计方案探索', 'pc端方案', '封底']}
@@ -856,11 +859,7 @@ function NianyuProject() {
 
   return (
     <main className="project-detail project-detail-nianyu">
-      <header className="project-detail-bar">
-        <a href="/" className="project-back"><img src="/icons/chevron-left.svg" alt="" aria-hidden="true" />返回主页</a>
-        <span className="project-detail-name">念屿 · 高校心理健康平台</span>
-        <span className="project-detail-count">02 / SELECTED WORKS</span>
-      </header>
+      <PortfolioMenu subpage />
 
       <div className={`project-option-wheel ${showProjectMenu ? 'is-visible' : ''}`}>
         <OptionWheel
@@ -1105,16 +1104,16 @@ export default function App() {
   if (pathname === '/thinking') {
     return <DesignThinkingPage />
   }
+  if (pathname === '/about') {
+    return <AboutDetailPage />
+  }
   return (
     <>
-      <IntroOverlay />
-      <Nav />
-      <Hero />
-      <About />
-      <Works />
-      <MoreWorks />
-      <Strengths />
-      <Contact />
+      <div className="home-content">
+        <div className="hero-exit-shell"><NoomoHero /></div>
+        <PortfolioBody works={WORKS} more={MORE} />
+      </div>
+      <HomePreloader />
     </>
   )
 }
